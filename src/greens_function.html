@@ -473,31 +473,31 @@ G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{reg}(\tau,\omega) \rho'(\o
 <p>For numerical work it is convenient to introduce dimensionless variables.
 We define the dimensionless parameters</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-\Lambda \\equiv \beta \\wmax, \qquad x \\equiv 2\\tau/\\beta - 1 \\in [-1,1], \qquad y \\equiv \\omega/\\wmax \\in [-1,1].
-\end{split}\]</div>
+\[
+\Lambda \equiv \beta \wmax, \qquad x \equiv 2\tau/\beta - 1 \in [-1,1], \qquad y \equiv \omega/\wmax \in [-1,1].
+\]</div>
 <p>In terms of <span class="math notranslate nohighlight">\((x,y)\)</span>, the <strong>logistic kernel</strong> becomes</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-K^\\mathrm{L}(x, y) = \\frac{\\exp[-\\Lambda y (x+1)/2]}{1 + \\exp[-\\Lambda y]},
-\end{split}\]</div>
+\[
+K^\mathrm{L}(x, y) = \frac{\exp[-\Lambda y (x+1)/2]}{1 + \exp[-\Lambda y]},
+\]</div>
 <p>which is the form used internally in the IR and DLR implementations.
-The physical kernel in <span class="math notranslate nohighlight">\((\\tau,\\omega)\)</span> is obtained by the change of variables above,
-with the integration range <span class="math notranslate nohighlight">\(\\omega \\in [-\\wmax, \\wmax]\)</span>.</p>
+The physical kernel in <span class="math notranslate nohighlight">\((\tau,\omega)\)</span> is obtained by the change of variables above,
+with the integration range <span class="math notranslate nohighlight">\(\omega \in [-\wmax, \wmax]\)</span>.</p>
 <p>For the <strong>regularized Bose kernel</strong>, the dimensionless form is</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-K^\\mathrm{reg}(x, y) = y \\frac{\\exp[-\\Lambda y (x+1)/2]}{1 - \\exp[-\\Lambda y]},
-\end{split}\]</div>
+\[
+K^\mathrm{reg}(x, y) = y \frac{\exp[-\Lambda y (x+1)/2]}{1 - \exp[-\Lambda y]},
+\]</div>
 <p>and the dimensional kernel is recovered via</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-K^\\mathrm{reg}(\\tau, \\omega) = \\wmax \\; K^\\mathrm{reg}(x, y), 
-\end{split}\]</div>
-<p>with the same definitions of <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(\\Lambda\)</span> as above.
+\[
+K^\mathrm{reg}(\tau, \omega) = \wmax \; K^\mathrm{reg}(x, y), 
+\]</div>
+<p>with the same definitions of <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(\Lambda\)</span> as above.
 This convention is consistent with the implementation in the Rust backend (see <code class="docutils literal notranslate"><span class="pre">kernel.rs</span></code>),
-and allows us to tabulate and manipulate kernels on the compact domain <span class="math notranslate nohighlight">\(x,y \\in [-1,1]\)</span> while
-keeping the dependence on <span class="math notranslate nohighlight">\(\\beta\)</span> and <span class="math notranslate nohighlight">\(\\wmax\)</span> only through <span class="math notranslate nohighlight">\(\\Lambda\)</span>.</p>
+and allows us to tabulate and manipulate kernels on the compact domain <span class="math notranslate nohighlight">\(x,y \in [-1,1]\)</span> while
+keeping the dependence on <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\wmax\)</span> only through <span class="math notranslate nohighlight">\(\Lambda\)</span>.</p>
 </section>
 </section>
 
