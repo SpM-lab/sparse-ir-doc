@@ -2,11 +2,7 @@ build:
 	@echo "Installing Python packages..."
 	uv sync
 	@echo "Building HTML files..."
-	BASE_URL=/ uv run jupyter book build --html
-
-start:
-	@echo "Starting local server..."
-	uv run jupyter book start
+	uv run jupyter book build --all .
 
 serve:
 	@echo "Serving _build/html on http://localhost:8000"

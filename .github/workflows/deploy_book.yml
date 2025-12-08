@@ -41,9 +41,7 @@ jobs:
       run: uv sync
       
     - name: Build the book
-      run: uv run jupyter book build --html
-      env:
-        BASE_URL: /sparse-ir-doc/
+      run: uv run jupyter book build --all .
       
     - name: Verify build output
       run: |
