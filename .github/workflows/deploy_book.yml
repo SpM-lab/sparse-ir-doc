@@ -32,15 +32,13 @@ jobs:
       uses: astral-sh/setup-uv@v7
       with:
         version: "latest"
-  
-    # Set up Julia
-    - uses: julia-actions/setup-julia@v2
-      with:
-        version: '1'
 
-    # Build the book using make
+    # Install dependencies and build the book
+    - name: Install dependencies
+      run: uv sync
+      
     - name: Build the book
-      run: make build
+      run: uv run jupyter book build --all -v .
 
     # Push the book's HTML to github-pages
     - name: GitHub Pages action
