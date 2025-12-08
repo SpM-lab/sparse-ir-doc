@@ -1,11 +1,14 @@
 name: deploy-book
 
-# Only run this when the master branch changes
+# Only run this when the master branch changes or on pull requests
 on:
   push:
     branches:
     - main
     - gh-test
+  pull_request:
+    branches:
+    - main
     # If your git repository has the Jupyter Book within some-subfolder next to
     # unrelated files, you can make this run only if a file within that specific
     # folder has been modified.
@@ -40,8 +43,9 @@ jobs:
     - name: Build the book
       run: uv run jupyter book build --all -v .
 
-    # Push the book's HTML to github-pages
+    # Push the book's HTML to github-pages (only on push, not on PR)
     - name: GitHub Pages action
+      if: github.event_name == 'push'
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
