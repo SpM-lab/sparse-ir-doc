@@ -63,12 +63,18 @@ The move from C++ to Rust was motivated by improved portability and
 maintainability, while still exposing a C-compatible API that can be used
 from C, C++, Fortran, Python, Julia, and other languages.
 
+For high-precision computations, **sparse-ir-rs** uses the emulated
+quadruple-precision backend provided by the Rust crate
+[`xprec-rs`][xprec-rs], which was developed in parallel by
+**Markus Wallerberger**.
+
 The Fortran bindings to the Rust implementation were developed by
 **Hitoshi Mori** in collaboration with **Satoshi Terasaki** and
 **Hiroshi Shinaoka**.
 
 [libsparseir]: https://github.com/SpM-lab/libsparseir
 [sparse-ir-rs]: https://github.com/SpM-lab/sparse-ir-rs
+[xprec-rs]: https://github.com/tuwien-cms/xprec-rs
 
 ## Contributors
 
