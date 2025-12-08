@@ -3,6 +3,7 @@ root: index
 parts:
 - caption: Basic theory
   chapters:
+  - file: src/greens_function
   - file: src/IR_py
   - file: src/sparse_sampling_py
   - file: src/DLR
