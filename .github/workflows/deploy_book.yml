@@ -42,6 +42,10 @@ jobs:
       
     - name: Build the book
       run: uv run jupyter book build --all -v .
+      
+    - name: Verify build output
+      run: |
+        ls -la _build/html/ || (echo "Build failed: _build/html not found" && ls -la _build/ && exit 1)
 
     # Push the book's HTML to github-pages (only on push, not on PR)
     - name: GitHub Pages action
