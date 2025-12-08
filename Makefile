@@ -2,7 +2,7 @@ build:
 	@echo "Installing Python packages..."
 	uv sync
 	@echo "Building HTML files..."
-	. .venv/bin/activate && jupyter book build --all -v .
+	uv run jupyter book build --html
 
 clean:
 	rm -rf _build
