@@ -283,7 +283,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#singular-value-expansion-and-basis-functions">Singular value expansion and basis functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-ir-expansion-of-a-simple-spectral-function">Example: IR expansion of a simple spectral function</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-to-dlr">Relation to DLR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-to-discrete-lehmann-representation-dlr">Relation to Discrete Lehmann Representation (DLR)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-sparse-sampling-of-greens-functions">Next: sparse sampling of Green’s functions</a></li>
 </ul>
             </nav>
@@ -512,52 +512,33 @@ Let us demonstrate it with <span class="math notranslate nohighlight">\(\omega_\
 </div>
 </div>
 </section>
-<section id="relation-to-dlr">
-<h2>Relation to DLR<a class="headerlink" href="#relation-to-dlr" title="Link to this heading">#</a></h2>
-<p>The intermediate representation (IR) is based on the singular value expansion of the logistic kernel,</p>
+<section id="relation-to-discrete-lehmann-representation-dlr">
+<h2>Relation to Discrete Lehmann Representation (DLR)<a class="headerlink" href="#relation-to-discrete-lehmann-representation-dlr" title="Link to this heading">#</a></h2>
+<p>In this page we have introduced the IR as the singular value expansion of the logistic kernel,</p>
 <div class="math notranslate nohighlight">
 \[
 K^\mathrm{L}(\tau, \omega) = \sum_{l=0}^\infty U_l(\tau) S_l V_l(\omega).
 \]</div>
-<p>In the DLR, we instead represent the Green’s function in terms of a finite set of poles
-<span class="math notranslate nohighlight">\(\{\bar{\omega}_p\}_{p=1}^L\)</span> on the real-frequency axis and their residues <span class="math notranslate nohighlight">\(\{c_p\}\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[
-G(\tau) \approx -\sum_{p=1}^L K^\mathrm{L}(\tau, \bar{\omega}_p) c_p,
-\]</div>
-<p>and, in Matsubara space,</p>
-<div class="math notranslate nohighlight">
-\[
-G(\mathrm{i}\nu_n) \approx \sum_{p=1}^L \hat{U}_p(\mathrm{i}\nu_n) c_p,
-\]</div>
-<p>where the DLR basis functions <span class="math notranslate nohighlight">\(U_p(\tau)\)</span> and <span class="math notranslate nohighlight">\(\hat{U}_p(\mathrm{i}\nu_n)\)</span> are defined in detail in
-<a class="reference internal" href="DLR.html"><span class="std std-doc">Discrete Lehmann representation</span></a>.</p>
-<p>The connection between IR and DLR is given by the expansion coefficients of the spectral function.
-If we denote the IR coefficients by</p>
-<div class="math notranslate nohighlight">
-\[
-\rho_l = \int_{-\omega_\mathrm{max}}^{\omega_\mathrm{max}} \rho(\omega) V_l(\omega) \, \mathrm{d}\omega
-\]</div>
-<p>and the DLR coefficients by <span class="math notranslate nohighlight">\(c_p\)</span>, then they are related by a linear transform</p>
-<div class="math notranslate nohighlight">
-\[
-\rho_l \approx \sum_{p=1}^L V_l(\bar{\omega}_p) c_p.
-\]</div>
-<p>In the original DLR formulation <span id="id2">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id52" title="Jason Kaye, Kun Chen, and Olivier Parcollet. Discrete lehmann representation of imaginary time green's functions. Phys. Rev. B, 105:235115, Jun 2022. URL: https://link.aps.org/doi/10.1103/PhysRevB.105.235115, doi:10.1103/PhysRevB.105.235115.">Kaye <em>et al.</em>, 2022</a>]</span>, the poles <span class="math notranslate nohighlight">\(\{\bar{\omega}_p\}\)</span> and the transformation
-are obtained by applying an interpolative decomposition (rank-revealing factorization) to a discretized
-kernel. In this tutorial, we take a more intuitive point of view: we start from the IR basis
-<span class="math notranslate nohighlight">\(U_l(\tau)\)</span> and <span class="math notranslate nohighlight">\(V_l(\omega)\)</span>, then choose poles <span class="math notranslate nohighlight">\(\{\bar{\omega}_p\}\)</span> based on properties of
-<span class="math notranslate nohighlight">\(V_l(\omega)\)</span> (such as the zeros of <span class="math notranslate nohighlight">\(V_{L-1}'(\omega)\)</span>) and define the DLR from them.</p>
-<p>For practical use of the DLR and its numerical properties, see also <a class="reference internal" href="DLR.html"><span class="std std-doc">DLR</span></a>.</p>
+<p>The Discrete Lehmann Representation (DLR) provides an alternative, but closely related,\n
+representation of Green’s functions. In the original DLR work <span id="id2">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id52" title="Jason Kaye, Kun Chen, and Olivier Parcollet. Discrete lehmann representation of imaginary time green's functions. Phys. Rev. B, 105:235115, Jun 2022. URL: https://link.aps.org/doi/10.1103/PhysRevB.105.235115, doi:10.1103/PhysRevB.105.235115.">Kaye <em>et al.</em>, 2022</a>]</span>, the kernel\n
+is not decomposed by SVD but by an <em>interpolative decomposition</em> (a rank-revealing\n
+factorization) applied to a discretized version of <span class="math notranslate nohighlight">\(K^\mathrm{L}(\tau, \omega)\)</span>.\n
+This yields a finite set of poles on the real-frequency axis and corresponding basis\n
+functions in <span class="math notranslate nohighlight">\(\tau\)</span> and Matsubara frequency.\n
+We do not go into the details of the interpolative decomposition here. Instead, the\n
+page <a class="reference internal" href="DLR.html"><span class="std std-doc">Discrete Lehmann representation</span></a> explains how the DLR can be understood\n
+and implemented starting from the IR basis <span class="math notranslate nohighlight">\(U_l(\tau)\)</span> and <span class="math notranslate nohighlight">\(V_l(\omega)\)</span>, and how the\n
+resulting DLR basis is used in practice.\n</p>
 </section>
 <section id="next-sparse-sampling-of-greens-functions">
 <h2>Next: sparse sampling of Green’s functions<a class="headerlink" href="#next-sparse-sampling-of-greens-functions" title="Link to this heading">#</a></h2>
 <p>In this chapter we have seen how Green’s functions can be represented compactly
-in the IR basis,
-$<span class="math notranslate nohighlight">\(
+in the IR basis,</p>
+<div class="math notranslate nohighlight">
+\[
 G(\tau) \approx \sum_{l=0}^{L-1} G_l U_l(\tau), \qquad
 \hat G(\mathrm{i}\nu_n) \approx \sum_{l=0}^{L-1} G_l \hat U_l(\mathrm{i}\nu_n).
-\)</span>$</p>
+\]</div>
 <p>The next page, <a class="reference internal" href="sparse_sampling_py.html"><span class="std std-doc">Sparse sampling</span></a>, explains how to
 reconstruct the IR coefficients <span class="math notranslate nohighlight">\(\{G_l\}_{l=0}^{L-1}\)</span> from a small number of
 sampling points in imaginary time or Matsubara frequency. It shows how to
@@ -633,7 +614,7 @@ choose these sampling points so that the reconstruction is numerically stable.</
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#singular-value-expansion-and-basis-functions">Singular value expansion and basis functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-ir-expansion-of-a-simple-spectral-function">Example: IR expansion of a simple spectral function</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-to-dlr">Relation to DLR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-to-discrete-lehmann-representation-dlr">Relation to Discrete Lehmann Representation (DLR)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-sparse-sampling-of-greens-functions">Next: sparse sampling of Green’s functions</a></li>
 </ul>
   </nav></div>
