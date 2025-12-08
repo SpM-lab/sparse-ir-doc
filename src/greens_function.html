@@ -280,6 +280,12 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-particle-greens-function">One-particle Green’s function</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lehmann-representation">Lehmann representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regularization-of-the-bosonic-kernel">Regularization of the bosonic kernel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-logistic-kernel-with-modified-spectral-function">Method 1: Logistic kernel with modified spectral function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-regularized-bose-kernel">Method 2: Regularized Bose kernel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -360,30 +366,94 @@ The Lehmann representation can be transformed to the imaginary-time domain as</p
     \end{cases}.
 \end{align}
 \end{split}\]</div>
-<p>The minus sign originates from our convention <span class="math notranslate nohighlight">\(K(\tau, \omega) &gt; 0\)</span>.
-To avoid the divergence of the bosonic kernel at <span class="math notranslate nohighlight">\(\omega=0\)</span>, we reformulate Eq. <a class="reference internal" href="#equation-lehmann-tau">(1)</a> as</p>
+<p>The minus sign originates from our convention <span class="math notranslate nohighlight">\(K(\tau, \omega) &gt; 0\)</span>.</p>
+</section>
+<section id="regularization-of-the-bosonic-kernel">
+<h2>Regularization of the bosonic kernel<a class="headerlink" href="#regularization-of-the-bosonic-kernel" title="Link to this heading">#</a></h2>
+<p>The bosonic kernel diverges at <span class="math notranslate nohighlight">\(\omega = 0\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-\begin{equation}
-    G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{L}(\tau,\omega) \rho(\omega),
-\end{equation}
+K^\mathrm{B}(\tau, \omega) = \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}} \sim \frac{1}{\beta\omega} \quad (\omega \to 0).
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(K^\mathrm{L}(\tau, \omega)\)</span> is the “logistic kernel” defined as</p>
+<p>To perform the singular value expansion numerically, this divergence must be regularized.
+There are two common approaches:</p>
+<section id="method-1-logistic-kernel-with-modified-spectral-function">
+<h3>Method 1: Logistic kernel with modified spectral function<a class="headerlink" href="#method-1-logistic-kernel-with-modified-spectral-function" title="Link to this heading">#</a></h3>
+<p>This approach, introduced in <span id="id1">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id52" title="Jason Kaye, Kun Chen, and Olivier Parcollet. Discrete lehmann representation of imaginary time green's functions. Phys. Rev. B, 105:235115, Jun 2022. URL: https://link.aps.org/doi/10.1103/PhysRevB.105.235115, doi:10.1103/PhysRevB.105.235115.">Kaye <em>et al.</em>, 2022</a>]</span>, uses the <strong>logistic kernel</strong> for both fermions and bosons:</p>
 <div class="math notranslate nohighlight" id="equation-kl">
 <span class="eqno">(2)<a class="headerlink" href="#equation-kl" title="Link to this equation">#</a></span>\[
-K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
+K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}}.
 \]</div>
-<p>and <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> is the modified spectral function</p>
+<p>The Lehmann representation is reformulated as</p>
+<div class="math notranslate nohighlight">
+\[
+G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{L}(\tau,\omega) \rho(\omega),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> is the <strong>modified spectral function</strong>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
     \rho(\omega) &amp;\equiv 
     \begin{cases}
         A(\omega) &amp; (\mathrm{fermion}),\\
-        \frac{A(\omega)}{\tanh(\beta \omega/2)} &amp; (\mathrm{boson}).
+        \displaystyle\frac{A(\omega)}{\tanh(\beta \omega/2)} &amp; (\mathrm{boson}).
     \end{cases}
 \end{align}
 \end{split}\]</div>
+<p><strong>Advantage</strong>: The same kernel <span class="math notranslate nohighlight">\(K^\mathrm{L}\)</span> can be used for both fermions and bosons, simplifying the implementation.</p>
+<p><strong>Note</strong>: For bosons, the modified spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> must vanish at least linearly at <span class="math notranslate nohighlight">\(\omega = 0\)</span> to compensate for the <span class="math notranslate nohighlight">\(1/\tanh(\beta\omega/2) \sim 2/(\beta\omega)\)</span> factor.</p>
+</section>
+<section id="method-2-regularized-bose-kernel">
+<h3>Method 2: Regularized Bose kernel<a class="headerlink" href="#method-2-regularized-bose-kernel" title="Link to this heading">#</a></h3>
+<p>This approach, used in <span id="id2">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id25" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span>, introduces a <strong>regularized bosonic kernel</strong>:</p>
+<div class="math notranslate nohighlight" id="equation-kreg">
+<span class="eqno">(3)<a class="headerlink" href="#equation-kreg" title="Link to this equation">#</a></span>\[
+K^\mathrm{reg}(\tau, \omega) = \omega \cdot \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}}.
+\]</div>
+<p>The factor <span class="math notranslate nohighlight">\(\omega\)</span> cancels the <span class="math notranslate nohighlight">\(1/\omega\)</span> divergence, making the kernel well-behaved at <span class="math notranslate nohighlight">\(\omega = 0\)</span>.
+The Lehmann representation becomes</p>
+<div class="math notranslate nohighlight">
+\[
+G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{reg}(\tau,\omega) \rho'(\omega),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho'(\omega) = A(\omega)/\omega\)</span> is the modified spectral function.</p>
+<p><strong>Advantage</strong>: This kernel is specifically designed for bosons and provides optimal numerical properties for bosonic Green’s functions.</p>
+<p><strong>Note</strong>: The physical spectral function <span class="math notranslate nohighlight">\(A(\omega)\)</span> must vanish at least linearly at <span class="math notranslate nohighlight">\(\omega = 0\)</span> for the integral to converge.</p>
+</section>
+<section id="comparison">
+<h3>Comparison<a class="headerlink" href="#comparison" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Logistic kernel</p></th>
+<th class="head"><p>Regularized Bose kernel</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Fermion support</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Boson support</p></td>
+<td><p>Yes (with modified <span class="math notranslate nohighlight">\(\rho\)</span>)</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>Kernel form</p></td>
+<td><p><span class="math notranslate nohighlight">\(K^\mathrm{L} = \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(K^\mathrm{reg} = \omega \cdot \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Modified spectral function</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho = A/\tanh(\beta\omega/2)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho' = A/\omega\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Implementation</p></td>
+<td><p>Unified for F/B</p></td>
+<td><p>Separate for B</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 </section>
 </section>
 
@@ -453,6 +523,12 @@ K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-particle-greens-function">One-particle Green’s function</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lehmann-representation">Lehmann representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regularization-of-the-bosonic-kernel">Regularization of the bosonic kernel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-logistic-kernel-with-modified-spectral-function">Method 1: Logistic kernel with modified spectral function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-regularized-bose-kernel">Method 2: Regularized Bose kernel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
