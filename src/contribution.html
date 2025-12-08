@@ -353,6 +353,10 @@ by <strong>Satoshi Terasaki</strong> and <strong>Hiroshi Shinaoka</strong>. The 
 The move from C++ to Rust was motivated by improved portability and
 maintainability, while still exposing a C-compatible API that can be used
 from C, C++, Fortran, Python, Julia, and other languages.</p>
+<p>For high-precision computations, <strong>sparse-ir-rs</strong> uses the emulated
+quadruple-precision backend provided by the Rust crate
+<a class="reference external" href="https://github.com/tuwien-cms/xprec-rs"><code class="docutils literal notranslate"><span class="pre">xprec-rs</span></code></a>, which was developed in parallel by
+<strong>Markus Wallerberger</strong>.</p>
 <p>The Fortran bindings to the Rust implementation were developed by
 <strong>Hitoshi Mori</strong> in collaboration with <strong>Satoshi Terasaki</strong> and
 <strong>Hiroshi Shinaoka</strong>.</p>
