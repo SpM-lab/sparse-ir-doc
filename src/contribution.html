@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Contribution &#8212; sparse-ir</title>
+    <title>Development history and contributions &#8212; sparse-ir</title>
   
   
   
@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'src/contribution';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Notes" href="notes.html" />
+    <link rel="prev" title="Additional material" href="additional_material.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -173,12 +173,14 @@
 <li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notes.html">Notes</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Contribution</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Development history and contributions</a></li>
 </ul>
 
     </div>
@@ -269,7 +271,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Contribution</h1>
+    <h1>Development history and contributions</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -280,8 +282,8 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predecessor-irbasis">Predecessor: irbasis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#early-implementations-sparse-ir-1-x-sparseir-jl-1-x">Early implementations (sparse-ir 1.x, SparseIR.jl 1.x)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unified-low-level-implementation-c-and-rust">Unified low-level implementation (C++ and Rust)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-implementation-of-on-the-fly-basis-construction-sparse-ir-1-x-sparseir-jl-1-x">First implementation of on-the-fly basis construction (sparse-ir 1.x, SparseIR.jl 1.x)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#portable-and-universal-low-level-implementation">Portable and universal low-level implementation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributors">Contributors</a></li>
 </ul>
             </nav>
@@ -294,8 +296,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="contribution">
-<h1>Contribution<a class="headerlink" href="#contribution" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="development-history-and-contributions">
+<h1>Development history and contributions<a class="headerlink" href="#development-history-and-contributions" title="Link to this heading">#</a></h1>
 <p>This section summarizes the development history of the sparse-intermediate
 representation (sparse-IR) ecosystem and acknowledges the main contributors.</p>
 <section id="predecessor-irbasis">
@@ -303,7 +305,7 @@ representation (sparse-IR) ecosystem and acknowledges the main contributors.</p>
 <p>Before sparse-ir and SparseIR.jl, the <strong>irbasis</strong> library <span id="id1">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id22" title="Naoya Chikano, Kazuyoshi Yoshimi, Junya Otsuki, and Hiroshi Shinaoka. irbasis: Open-source database and software for intermediate-representation basis functions of imaginary-time Green’s function. Computer Physics Communications, 240:181–188, 2018. URL: https://www.sciencedirect.com/science/article/pii/S001046551930058X?via\%3Dihub, arXiv:1807.05237, doi:10.1016/j.cpc.2019.02.006.">Chikano <em>et al.</em>, 2018</a>]</span>
 provided precomputed, tabulated intermediate-representation (IR) basis
 functions. In irbasis, the IR basis functions were obtained by solving the
-integral equation for each choice of the cutoff parameter <span class="math notranslate nohighlight">\(\Lambda = \beta\wmax\)</span>
+integral equation for each choice of the cutoff parameter <span class="math notranslate nohighlight">\(\Lambda = \beta \omega_\mathrm{max}\)</span>
 with high precision, and the results were stored in a database.
 Users could then load these tabulated basis functions and use them directly
 in their calculations.</p>
@@ -311,22 +313,25 @@ in their calculations.</p>
 functions <strong>on the fly</strong> for arbitrary <span class="math notranslate nohighlight">\(\Lambda\)</span>, without relying on a fixed
 precomputed database.</p>
 </section>
-<section id="early-implementations-sparse-ir-1-x-sparseir-jl-1-x">
-<h2>Early implementations (sparse-ir 1.x, SparseIR.jl 1.x)<a class="headerlink" href="#early-implementations-sparse-ir-1-x-sparseir-jl-1-x" title="Link to this heading">#</a></h2>
+<section id="first-implementation-of-on-the-fly-basis-construction-sparse-ir-1-x-sparseir-jl-1-x">
+<h2>First implementation of on-the-fly basis construction (sparse-ir 1.x, SparseIR.jl 1.x)<a class="headerlink" href="#first-implementation-of-on-the-fly-basis-construction-sparse-ir-1-x-sparseir-jl-1-x" title="Link to this heading">#</a></h2>
 <p>The original Python implementation <strong>sparse-ir 1.x</strong> was mainly developed by
-<strong>Markus Wallerberger</strong>. It provided a practical and widely used realization of
-the intermediate representation for imaginary-time Green’s functions.</p>
+<strong>Markus Wallerberger</strong>. It was the first implementation that constructed the
+IR basis functions <strong>on the fly</strong> for arbitrary cutoff <span class="math notranslate nohighlight">\(\Lambda\)</span>, without
+relying on a precomputed database. This provided a practical and widely used
+realization of the intermediate representation for imaginary-time Green’s
+functions.</p>
 <p>The Julia port <strong>SparseIR.jl 1.x</strong> was then developed primarily by
 <strong>Samuel Badr</strong> and <strong>Markus Wallerberger</strong>. Both the Python and Julia
 implementations received contributions from <strong>Hiroshi Shinaoka</strong>.</p>
 <p>The tutorials for these libraries were developed collaboratively by the three
 authors above and many physicists listed in the contributor list below.</p>
 </section>
-<section id="unified-low-level-implementation-c-and-rust">
-<h2>Unified low-level implementation (C++ and Rust)<a class="headerlink" href="#unified-low-level-implementation-c-and-rust" title="Link to this heading">#</a></h2>
-<p>Since around 2024, the focus has shifted towards <strong>unifying the core
-implementation</strong> across languages via a common low-level library with a
-C-compatible API.</p>
+<section id="portable-and-universal-low-level-implementation">
+<h2>Portable and universal low-level implementation<a class="headerlink" href="#portable-and-universal-low-level-implementation" title="Link to this heading">#</a></h2>
+<p>Since around 2024, the focus has shifted towards building a <strong>portable and
+universal low-level implementation</strong> that can be used from multiple languages
+via a common C-compatible API.</p>
 <p>An important application that motivated this direction is the work of
 <span id="id2">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id54" title="Hitoshi Mori, Takuya Nomoto, Ryotaro Arita, and Elena R. Margine. Efficient anisotropic migdal-eliashberg calculations with an intermediate representation basis and wannier interpolation. Phys. Rev. B, 110:064505, Aug 2024. URL: https://link.aps.org/doi/10.1103/PhysRevB.110.064505, doi:10.1103/PhysRevB.110.064505.">Mori <em>et al.</em>, 2024</a>]</span>, where IR-based quantities were computed with
 <strong>sparse-ir (Python)</strong> and the resulting data were saved to files and
@@ -334,18 +339,20 @@ consumed by the EPW code (<a class="reference external" href="https://epw-code.o
 This workflow made it clear that having a low-level library which can
 compute IR basis functions <strong>on the fly in any language</strong> via a stable C API
 would be highly beneficial.</p>
-<p>The first attempt was a C++ library <a class="reference external" href="https://github.com/SpM-lab/libsparseir"><code class="docutils literal notranslate"><span class="pre">libsparseir</span></code></a>, developed
-by <strong>Satoshi Terasaki</strong> and <strong>Hiroshi Shinaoka</strong>.</p>
-<p>Subsequently, the project migrated to Rust as
-<a class="reference external" href="https://github.com/SpM-lab/sparse-ir-rs"><code class="docutils literal notranslate"><span class="pre">sparse-ir-rs</span></code></a>, again led by <strong>Satoshi Terasaki</strong> and
-<strong>Hiroshi Shinaoka</strong>. The new versions</p>
+<p>As a first step, a C++ prototype library <a class="reference external" href="https://github.com/SpM-lab/libsparseir"><code class="docutils literal notranslate"><span class="pre">libsparseir</span></code></a> was
+developed by <strong>Satoshi Terasaki</strong> and <strong>Hiroshi Shinaoka</strong>. This attempt
+explored how to expose IR functionality through a C API, but was not released
+as a long-term, production-quality solution.</p>
+<p>The project then migrated to Rust as <a class="reference external" href="https://github.com/SpM-lab/sparse-ir-rs"><code class="docutils literal notranslate"><span class="pre">sparse-ir-rs</span></code></a>, again led
+by <strong>Satoshi Terasaki</strong> and <strong>Hiroshi Shinaoka</strong>. The new versions</p>
 <ul class="simple">
 <li><p><strong>SparseIR.jl 2.x</strong> (Julia)</p></li>
 <li><p><strong>sparse-ir 2.x</strong> (Python)</p></li>
 </ul>
 <p>are designed as high-level wrappers around this Rust implementation.
 The move from C++ to Rust was motivated by improved portability and
-ease of development, while still exposing a C-compatible API.</p>
+maintainability, while still exposing a C-compatible API that can be used
+from C, C++, Fortran, Python, Julia, and other languages.</p>
 <p>The Fortran bindings to the Rust implementation were developed by
 <strong>Hitoshi Mori</strong> in collaboration with <strong>Satoshi Terasaki</strong> and
 <strong>Hiroshi Shinaoka</strong>.</p>
@@ -411,12 +418,12 @@ repository.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="notes.html"
+       href="additional_material.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Notes</p>
+        <p class="prev-next-title">Additional material</p>
       </div>
     </a>
 </div>
@@ -436,8 +443,8 @@ repository.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predecessor-irbasis">Predecessor: irbasis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#early-implementations-sparse-ir-1-x-sparseir-jl-1-x">Early implementations (sparse-ir 1.x, SparseIR.jl 1.x)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unified-low-level-implementation-c-and-rust">Unified low-level implementation (C++ and Rust)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-implementation-of-on-the-fly-basis-construction-sparse-ir-1-x-sparseir-jl-1-x">First implementation of on-the-fly basis construction (sparse-ir 1.x, SparseIR.jl 1.x)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#portable-and-universal-low-level-implementation">Portable and universal low-level implementation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributors">Contributors</a></li>
 </ul>
   </nav></div>
