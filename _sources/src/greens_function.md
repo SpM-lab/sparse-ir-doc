@@ -136,7 +136,7 @@ $$
 
 where $\rho'(\omega) = A(\omega)/\omega$ is the modified spectral function.
 
-**Advantage**: This kernel is specifically designed for bosons and provides optimal numerical properties for bosonic Green's functions.
+**Advantage**: As shown in {cite:p}`Shinaoka:2017ix`, the number of basis functions grows only logarithmically with $\Lambda = \beta\wmax$, making this representation highly compact for large $\Lambda$.
 
 **Note**: The physical spectral function $A(\omega)$ must vanish at least linearly at $\omega = 0$ for the integral to converge.
 
