@@ -173,11 +173,12 @@
 <li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes.html">Notes</a></li>
 </ul>
 
     </div>
@@ -347,6 +348,17 @@ G_{ij}^\mathrm{R}(\omega)=G_{ij}(z \rightarrow \omega+\mathrm{i}0^{+}).
 \end{align}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(A(\omega)\)</span> is a spectral function.
+In terms of retarded and advanced Green’s functions in real frequency, the spectral function is related to them as</p>
+<div class="math notranslate nohighlight">
+\[
+A_{ii}(\omega) = -\frac{1}{\pi} \operatorname{Im} G^R_{ii}(\omega)
+\]</div>
+<p>for the diagonal (local) components, and more generally</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{A_{ij}(\omega) = \frac{i}{2\pi}\left(G^R_{ij}(\omega) - G^A_{ij}(\omega)\right)}.
+\]</div>
+<p>Here <span class="math notranslate nohighlight">\(G^R\)</span> and <span class="math notranslate nohighlight">\(G^A\)</span> denote the retarded and advanced Green’s functions, respectively.
 <span class="math notranslate nohighlight">\(K(\iv, \omega)\)</span> is the so-called analytic continuation kernel.
 The Lehmann representation can be transformed to the imaginary-time domain as</p>
 <div class="math notranslate nohighlight" id="equation-lehmann-tau">

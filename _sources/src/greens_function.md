@@ -55,6 +55,19 @@ $$
 $$
 
 where $A(\omega)$ is a spectral function.
+In terms of retarded and advanced Green's functions in real frequency, the spectral function is related to them as
+
+$$
+A_{ii}(\omega) = -\frac{1}{\pi} \operatorname{Im} G^R_{ii}(\omega)
+$$
+
+for the diagonal (local) components, and more generally
+
+$$
+\boxed{A_{ij}(\omega) = \frac{i}{2\pi}\left(G^R_{ij}(\omega) - G^A_{ij}(\omega)\right)}.
+$$
+
+Here $G^R$ and $G^A$ denote the retarded and advanced Green's functions, respectively.
 $K(\iv, \omega)$ is the so-called analytic continuation kernel.
 The Lehmann representation can be transformed to the imaginary-time domain as
 

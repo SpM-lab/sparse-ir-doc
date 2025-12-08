@@ -173,11 +173,12 @@
 <li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Sparse sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes.html">Notes</a></li>
 </ul>
 
     </div>
@@ -305,7 +306,12 @@ document.write(`
 \newcommand{\Fmat}{{\mathbf{F}}}
 \]</div>
 <p>We consider how to compute the <span class="math notranslate nohighlight">\(L\)</span> expansion coefficients of a Green’s function in IR from its numerical values known on a finite set of imaginary times or imaginary frequencies.
-The idea of the sparse sampling is simple.
+This builds on the IR expansion
+$<span class="math notranslate nohighlight">\(
+G(\tau) \approx \sum_{l=0}^{L-1} G_l U_l(\tau),
+\)</span>$
+introduced in <a class="reference internal" href="IR_py.html"><span class="std std-doc">Intermediate representation (IR)</span></a>.</p>
+<p>The idea of the sparse sampling is simple.
 If we want to determine <span class="math notranslate nohighlight">\(L\)</span> coefficients <span class="math notranslate nohighlight">\(G_l\)</span>,
 we need to know <span class="math notranslate nohighlight">\(G(\tau)\)</span> on only up to <span class="math notranslate nohighlight">\(L\)</span> sampling points.
 Let <span class="math notranslate nohighlight">\(\bar{\tau}_1 &lt; \cdots &lt; \bar{\tau}_{N_\mathrm{smpl}}\)</span> (<span class="math notranslate nohighlight">\(N_\mathrm{smpl}\ge L\)</span>) be such sampling points,

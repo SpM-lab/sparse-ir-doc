@@ -1,3 +1,4 @@
 # Additional material
 
-* [Lecture note by H. Shinaoka](https://www.overleaf.com/read/trcfnpmrhbcr)
+- [Lecture note by H. Shinaoka](https://www.overleaf.com/read/trcfnpmrhbcr)
+- [Notes](notes.md)

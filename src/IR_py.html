@@ -173,11 +173,12 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Intermediate representation (IR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes.html">Notes</a></li>
 </ul>
 
     </div>
@@ -278,8 +279,12 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#singular-value-expansion-and-basis-functions">Singular value expansion and basis functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-ir-expansion-of-a-simple-spectral-function">Example: IR expansion of a simple spectral function</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-to-dlr">Relation to DLR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-sparse-sampling-of-greens-functions">Next: sparse sampling of Green’s functions</a></li>
 </ul>
             </nav>
         </div>
@@ -299,7 +304,13 @@ document.write(`
 \newcommand{\wmax}{{\omega_\mathrm{max}}}
 \newcommand{\dd}{{\mathrm{d}}}
 \]</div>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>For the definition of the Green’s function and the Lehmann representation, please refer to <a class="reference internal" href="greens_function.html"><span class="std std-doc">Green’s function and Lehmann representation</span></a>.</p>
+<p>In this document, we use the <strong>logistic kernel</strong> <span class="math notranslate nohighlight">\(K^\mathrm{L}(\tau, \omega)\)</span> for the singular value expansion.
+This kernel can be used for both fermionic and bosonic Green’s functions with appropriate modification of the spectral function (see <a class="reference internal" href="greens_function.html#regularization-of-the-bosonic-kernel"><span class="std std-ref">Regularization of the bosonic kernel</span></a> for details).</p>
+<p>Our goal in this documentation is to construct a <strong>compact representation and sampling</strong> of Green’s functions on the imaginary-time axis <span class="math notranslate nohighlight">\(\tau\)</span> and on the Matsubara-frequency axis <span class="math notranslate nohighlight">\(\mathrm{i}\nu\)</span>, so that a small number of basis functions and sampling points capture all relevant information.</p>
+</section>
 <section id="singular-value-expansion-and-basis-functions">
 <h2>Singular value expansion and basis functions<a class="headerlink" href="#singular-value-expansion-and-basis-functions" title="Link to this heading">#</a></h2>
 <p>The singular value expnasion of the kernel <a class="reference internal" href="greens_function.html#equation-kl">(2)</a> reads <span id="id1">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id25" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span></p>
@@ -395,6 +406,9 @@ The following plots show the singular values and the basis functions computed fo
 <img alt="../_images/0a251eeac929be389855794523a69c62e74082c200eefefe195b011b1ad0c8f8.png" src="../_images/0a251eeac929be389855794523a69c62e74082c200eefefe195b011b1ad0c8f8.png" />
 </div>
 </div>
+</section>
+<section id="example-ir-expansion-of-a-simple-spectral-function">
+<h2>Example: IR expansion of a simple spectral function<a class="headerlink" href="#example-ir-expansion-of-a-simple-spectral-function" title="Link to this heading">#</a></h2>
 <p>We expand <span class="math notranslate nohighlight">\(G(\tau)\)</span> and <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -414,13 +428,14 @@ G_l = -S_l \rho_l,
 \[
 \rho_l = \int_{-\omega_\mathrm{max}}^{\omega_\mathrm{max}} \mathrm{d} \omega \rho(\omega) V_l(\omega).
 \]</div>
-<p>As a simple example, we consider a particle-hole-symmetric simple spectral function
+<p>As a simple example, we consider a particle-hole-symmetric spectral function
 <span class="math notranslate nohighlight">\(\rho(\omega) = \frac{1}{2} (\delta(\omega-1) + \delta(\omega+1))\)</span> for fermions.
 The expansion coefficients are given by</p>
 <div class="math notranslate nohighlight">
 \[
 \rho_l = \frac{1}{2}(V_l(1) + V_l(-1)).
 \]</div>
+<p>This example illustrates how <span class="math notranslate nohighlight">\(|G_l|\)</span> follows the decay of the singular values <span class="math notranslate nohighlight">\(S_l\)</span>, so that only a small number of coefficients are numerically relevant.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rho_l</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
@@ -497,6 +512,57 @@ Let us demonstrate it with <span class="math notranslate nohighlight">\(\omega_\
 </div>
 </div>
 </section>
+<section id="relation-to-dlr">
+<h2>Relation to DLR<a class="headerlink" href="#relation-to-dlr" title="Link to this heading">#</a></h2>
+<p>The intermediate representation (IR) is based on the singular value expansion of the logistic kernel,</p>
+<div class="math notranslate nohighlight">
+\[
+K^\mathrm{L}(\tau, \omega) = \sum_{l=0}^\infty U_l(\tau) S_l V_l(\omega).
+\]</div>
+<p>In the DLR, we instead represent the Green’s function in terms of a finite set of poles
+<span class="math notranslate nohighlight">\(\{\bar{\omega}_p\}_{p=1}^L\)</span> on the real-frequency axis and their residues <span class="math notranslate nohighlight">\(\{c_p\}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+G(\tau) \approx -\sum_{p=1}^L K^\mathrm{L}(\tau, \bar{\omega}_p) c_p,
+\]</div>
+<p>and, in Matsubara space,</p>
+<div class="math notranslate nohighlight">
+\[
+G(\mathrm{i}\nu_n) \approx \sum_{p=1}^L \hat{U}_p(\mathrm{i}\nu_n) c_p,
+\]</div>
+<p>where the DLR basis functions <span class="math notranslate nohighlight">\(U_p(\tau)\)</span> and <span class="math notranslate nohighlight">\(\hat{U}_p(\mathrm{i}\nu_n)\)</span> are defined in detail in
+<a class="reference internal" href="DLR.html"><span class="std std-doc">Discrete Lehmann representation</span></a>.</p>
+<p>The connection between IR and DLR is given by the expansion coefficients of the spectral function.
+If we denote the IR coefficients by</p>
+<div class="math notranslate nohighlight">
+\[
+\rho_l = \int_{-\omega_\mathrm{max}}^{\omega_\mathrm{max}} \rho(\omega) V_l(\omega) \, \mathrm{d}\omega
+\]</div>
+<p>and the DLR coefficients by <span class="math notranslate nohighlight">\(c_p\)</span>, then they are related by a linear transform</p>
+<div class="math notranslate nohighlight">
+\[
+\rho_l \approx \sum_{p=1}^L V_l(\bar{\omega}_p) c_p.
+\]</div>
+<p>In the original DLR formulation <span id="id2">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id52" title="Jason Kaye, Kun Chen, and Olivier Parcollet. Discrete lehmann representation of imaginary time green's functions. Phys. Rev. B, 105:235115, Jun 2022. URL: https://link.aps.org/doi/10.1103/PhysRevB.105.235115, doi:10.1103/PhysRevB.105.235115.">Kaye <em>et al.</em>, 2022</a>]</span>, the poles <span class="math notranslate nohighlight">\(\{\bar{\omega}_p\}\)</span> and the transformation
+are obtained by applying an interpolative decomposition (rank-revealing factorization) to a discretized
+kernel. In this tutorial, we take a more intuitive point of view: we start from the IR basis
+<span class="math notranslate nohighlight">\(U_l(\tau)\)</span> and <span class="math notranslate nohighlight">\(V_l(\omega)\)</span>, then choose poles <span class="math notranslate nohighlight">\(\{\bar{\omega}_p\}\)</span> based on properties of
+<span class="math notranslate nohighlight">\(V_l(\omega)\)</span> (such as the zeros of <span class="math notranslate nohighlight">\(V_{L-1}'(\omega)\)</span>) and define the DLR from them.</p>
+<p>For practical use of the DLR and its numerical properties, see also <a class="reference internal" href="DLR.html"><span class="std std-doc">DLR</span></a>.</p>
+</section>
+<section id="next-sparse-sampling-of-greens-functions">
+<h2>Next: sparse sampling of Green’s functions<a class="headerlink" href="#next-sparse-sampling-of-greens-functions" title="Link to this heading">#</a></h2>
+<p>In this chapter we have seen how Green’s functions can be represented compactly
+in the IR basis,
+$<span class="math notranslate nohighlight">\(
+G(\tau) \approx \sum_{l=0}^{L-1} G_l U_l(\tau), \qquad
+\hat G(\mathrm{i}\nu_n) \approx \sum_{l=0}^{L-1} G_l \hat U_l(\mathrm{i}\nu_n).
+\)</span>$</p>
+<p>The next page, <a class="reference internal" href="sparse_sampling_py.html"><span class="std std-doc">Sparse sampling</span></a>, explains how to
+reconstruct the IR coefficients <span class="math notranslate nohighlight">\(\{G_l\}_{l=0}^{L-1}\)</span> from a small number of
+sampling points in imaginary time or Matsubara frequency. It shows how to
+choose these sampling points so that the reconstruction is numerically stable.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -563,8 +629,12 @@ Let us demonstrate it with <span class="math notranslate nohighlight">\(\omega_\
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#singular-value-expansion-and-basis-functions">Singular value expansion and basis functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-ir-expansion-of-a-simple-spectral-function">Example: IR expansion of a simple spectral function</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-to-dlr">Relation to DLR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-sparse-sampling-of-greens-functions">Next: sparse sampling of Green’s functions</a></li>
 </ul>
   </nav></div>
 
