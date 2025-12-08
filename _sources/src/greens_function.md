@@ -162,3 +162,39 @@ where $\rho'(\omega) = A(\omega)/\omega$ is the modified spectral function.
 | Kernel form | $K^\mathrm{L} = \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}}$ | $K^\mathrm{reg} = \omega \cdot \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}}$ |
 | Modified spectral function | $\rho = A/\tanh(\beta\omega/2)$ | $\rho' = A/\omega$ |
 | Implementation | Unified for F/B | Separate for B |
+
+## Non-dimensionalization of kernels
+
+For numerical work it is convenient to introduce dimensionless variables.
+We define the dimensionless parameters
+
+$$
+\Lambda \\equiv \beta \\wmax, \qquad x \\equiv 2\\tau/\\beta - 1 \\in [-1,1], \qquad y \\equiv \\omega/\\wmax \\in [-1,1].
+$$
+
+In terms of $(x,y)$, the **logistic kernel** becomes
+
+$$
+K^\\mathrm{L}(x, y) = \\frac{\\exp[-\\Lambda y (x+1)/2]}{1 + \\exp[-\\Lambda y]},
+$$
+
+which is the form used internally in the IR and DLR implementations.
+The physical kernel in $(\\tau,\\omega)$ is obtained by the change of variables above,
+with the integration range $\\omega \\in [-\\wmax, \\wmax]$.
+
+For the **regularized Bose kernel**, the dimensionless form is
+
+$$
+K^\\mathrm{reg}(x, y) = y \\frac{\\exp[-\\Lambda y (x+1)/2]}{1 - \\exp[-\\Lambda y]},
+$$
+
+and the dimensional kernel is recovered via
+
+$$
+K^\\mathrm{reg}(\\tau, \\omega) = \\wmax \\; K^\\mathrm{reg}(x, y), 
+$$
+
+with the same definitions of $x$, $y$, and $\\Lambda$ as above.
+This convention is consistent with the implementation in the Rust backend (see `kernel.rs`),
+and allows us to tabulate and manipulate kernels on the compact domain $x,y \\in [-1,1]$ while
+keeping the dependence on $\\beta$ and $\\wmax$ only through $\\Lambda$.
