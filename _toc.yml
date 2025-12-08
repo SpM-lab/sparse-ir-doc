@@ -1,0 +1,13 @@
+format: jb-book
+root: index
+parts:
+- caption: Basic theory
+  chapters:
+  - file: src/IR
+  - file: src/sparse_sampling_py
+  - file: src/DLR
+  - file: src/matsubarasum
+- caption: Reference
+  chapters:
+  - file: src/api
+  - file: src/additional_material

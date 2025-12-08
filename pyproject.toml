@@ -1,0 +1,13 @@
+[project]
+name = "sparse-ir-doc"
+version = "0.1.0"
+dependencies = [
+    "jupyter-book",
+    "jupytext",
+    "matplotlib",
+    "ghp-import",
+    "jupyterlab",
+    #"sparse-ir>=2.0.0a6",
+    #"admmsolver",
+    #"pylibsparseir",
+]
