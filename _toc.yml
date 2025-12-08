@@ -7,9 +7,10 @@ parts:
   - file: src/IR_py
   - file: src/sparse_sampling_py
   - file: src/DLR
-- caption: Reference
+- caption: Notes
   chapters:
   - file: src/matsubarasum
+- caption: Reference
+  chapters:
   - file: src/additional_material
-  - file: src/notes
   - file: src/contribution
