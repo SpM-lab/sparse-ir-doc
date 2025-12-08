@@ -41,7 +41,19 @@ jobs:
       run: uv sync
       
     - name: Build the book
-      run: uv run jupyter book build --all -v .
+      run: uv run jupyter book build --all .
+      
+    - name: Verify build output
+      run: |
+        if [ -d "_build/html" ]; then
+          echo "Build successful. Directory structure:"
+          tree -L 2 _build/html/ || find _build/html/ -maxdepth 2 -type f | head -20
+        else
+          echo "Build failed: _build/html not found"
+          echo "Current directory structure:"
+          tree -L 3 . || find . -maxdepth 3 -type d | head -20
+          exit 1
+        fi
 
     # Push the book's HTML to github-pages (only on push, not on PR)
     - name: GitHub Pages action
