@@ -77,28 +77,75 @@ $$
 $$
 
 The minus sign originates from our convention $K(\tau, \omega) > 0$.
-To avoid the divergence of the bosonic kernel at $\omega=0$, we reformulate Eq. {eq}`lehmann-tau` as
+
+## Regularization of the bosonic kernel
+
+The bosonic kernel diverges at $\omega = 0$:
 
 $$
-\begin{equation}
-    G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{L}(\tau,\omega) \rho(\omega),
-\end{equation}
+K^\mathrm{B}(\tau, \omega) = \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}} \sim \frac{1}{\beta\omega} \quad (\omega \to 0).
 $$
 
-where $K^\mathrm{L}(\tau, \omega)$ is the "logistic kernel" defined as
+To perform the singular value expansion numerically, this divergence must be regularized.
+There are two common approaches:
+
+### Method 1: Logistic kernel with modified spectral function
+
+This approach, introduced in {cite:p}`DLR`, uses the **logistic kernel** for both fermions and bosons:
 
 $$
-K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
+K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}}.
 $$ (KL)
 
-and $\rho(\omega)$ is the modified spectral function
+The Lehmann representation is reformulated as
+
+$$
+G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{L}(\tau,\omega) \rho(\omega),
+$$
+
+where $\rho(\omega)$ is the **modified spectral function**:
 
 $$
 \begin{align}
     \rho(\omega) &\equiv 
     \begin{cases}
         A(\omega) & (\mathrm{fermion}),\\
-        \frac{A(\omega)}{\tanh(\beta \omega/2)} & (\mathrm{boson}).
+        \displaystyle\frac{A(\omega)}{\tanh(\beta \omega/2)} & (\mathrm{boson}).
     \end{cases}
 \end{align}
 $$
+
+**Advantage**: The same kernel $K^\mathrm{L}$ can be used for both fermions and bosons, simplifying the implementation.
+
+**Note**: For bosons, the modified spectral function $\rho(\omega)$ must vanish at least linearly at $\omega = 0$ to compensate for the $1/\tanh(\beta\omega/2) \sim 2/(\beta\omega)$ factor.
+
+### Method 2: Regularized Bose kernel
+
+This approach, used in {cite:p}`Shinaoka:2017ix`, introduces a **regularized bosonic kernel**:
+
+$$
+K^\mathrm{reg}(\tau, \omega) = \omega \cdot \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}}.
+$$ (Kreg)
+
+The factor $\omega$ cancels the $1/\omega$ divergence, making the kernel well-behaved at $\omega = 0$.
+The Lehmann representation becomes
+
+$$
+G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{reg}(\tau,\omega) \rho'(\omega),
+$$
+
+where $\rho'(\omega) = A(\omega)/\omega$ is the modified spectral function.
+
+**Advantage**: This kernel is specifically designed for bosons and provides optimal numerical properties for bosonic Green's functions.
+
+**Note**: The physical spectral function $A(\omega)$ must vanish at least linearly at $\omega = 0$ for the integral to converge.
+
+### Comparison
+
+| Property | Logistic kernel | Regularized Bose kernel |
+|----------|-----------------|------------------------|
+| Fermion support | Yes | No |
+| Boson support | Yes (with modified $\rho$) | Yes |
+| Kernel form | $K^\mathrm{L} = \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}}$ | $K^\mathrm{reg} = \omega \cdot \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}}$ |
+| Modified spectral function | $\rho = A/\tanh(\beta\omega/2)$ | $\rho' = A/\omega$ |
+| Implementation | Unified for F/B | Separate for B |
