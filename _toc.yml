@@ -9,5 +9,4 @@ parts:
   - file: src/matsubarasum
 - caption: Reference
   chapters:
-  - file: src/api
   - file: src/additional_material
