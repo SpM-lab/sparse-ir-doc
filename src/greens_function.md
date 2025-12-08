@@ -169,32 +169,32 @@ For numerical work it is convenient to introduce dimensionless variables.
 We define the dimensionless parameters
 
 $$
-\Lambda \\equiv \beta \\wmax, \qquad x \\equiv 2\\tau/\\beta - 1 \\in [-1,1], \qquad y \\equiv \\omega/\\wmax \\in [-1,1].
+\Lambda \equiv \beta \wmax, \qquad x \equiv 2\tau/\beta - 1 \in [-1,1], \qquad y \equiv \omega/\wmax \in [-1,1].
 $$
 
 In terms of $(x,y)$, the **logistic kernel** becomes
 
 $$
-K^\\mathrm{L}(x, y) = \\frac{\\exp[-\\Lambda y (x+1)/2]}{1 + \\exp[-\\Lambda y]},
+K^\mathrm{L}(x, y) = \frac{\exp[-\Lambda y (x+1)/2]}{1 + \exp[-\Lambda y]},
 $$
 
 which is the form used internally in the IR and DLR implementations.
-The physical kernel in $(\\tau,\\omega)$ is obtained by the change of variables above,
-with the integration range $\\omega \\in [-\\wmax, \\wmax]$.
+The physical kernel in $(\tau,\omega)$ is obtained by the change of variables above,
+with the integration range $\omega \in [-\wmax, \wmax]$.
 
 For the **regularized Bose kernel**, the dimensionless form is
 
 $$
-K^\\mathrm{reg}(x, y) = y \\frac{\\exp[-\\Lambda y (x+1)/2]}{1 - \\exp[-\\Lambda y]},
+K^\mathrm{reg}(x, y) = y \frac{\exp[-\Lambda y (x+1)/2]}{1 - \exp[-\Lambda y]},
 $$
 
 and the dimensional kernel is recovered via
 
 $$
-K^\\mathrm{reg}(\\tau, \\omega) = \\wmax \\; K^\\mathrm{reg}(x, y), 
+K^\mathrm{reg}(\tau, \omega) = \wmax \; K^\mathrm{reg}(x, y), 
 $$
 
-with the same definitions of $x$, $y$, and $\\Lambda$ as above.
+with the same definitions of $x$, $y$, and $\Lambda$ as above.
 This convention is consistent with the implementation in the Rust backend (see `kernel.rs`),
-and allows us to tabulate and manipulate kernels on the compact domain $x,y \\in [-1,1]$ while
-keeping the dependence on $\\beta$ and $\\wmax$ only through $\\Lambda$.
+and allows us to tabulate and manipulate kernels on the compact domain $x,y \in [-1,1]$ while
+keeping the dependence on $\beta$ and $\wmax$ only through $\Lambda$.
