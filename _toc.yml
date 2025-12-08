@@ -7,7 +7,8 @@ parts:
   - file: src/IR_py
   - file: src/sparse_sampling_py
   - file: src/DLR
-  - file: src/matsubarasum
 - caption: Reference
   chapters:
+  - file: src/matsubarasum
   - file: src/additional_material
+  - file: src/notes
