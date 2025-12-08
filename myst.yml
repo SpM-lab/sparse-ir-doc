@@ -1,0 +1,39 @@
+version: 1
+project:
+  math:
+    '\iv': '{\mathrm{i}\nu}'
+    '\wmax': '{\omega_\mathrm{max}}'
+    '\dd': '{\mathrm{d}}'
+    '\ii': '{\mathrm{i}}'
+    '\tauk': '{\bar{\tau}_k}'
+    '\wk': '{\bar{\omega}^\alpha_k}'
+    '\vk': '{\bar{\nu}_k}'
+    '\hatFmat': '\hat{\mathbf{F}}'
+    '\Fmat': '{\mathbf{F}}'
+  title: sparse-ir
+  authors:
+    - name: sparse-ir developers
+  copyright: '2022'
+  bibliography:
+    - references.bib
+  exports:
+    - format: pdf
+      template: plain_latex_book
+      output: exports/book.pdf
+  toc:
+    - file: index.md
+    - title: Basic theory
+      children:
+        - file: src/IR_py.ipynb
+        - file: src/sparse_sampling_py.ipynb
+        - file: src/DLR.md
+        - file: src/matsubarasum.md
+    - title: Reference
+      children:
+        - file: src/api.md
+        - file: src/additional_material.md
+site:
+  options:
+    analytics_google: G-RD8N0K0C9Y
+    folders: true
+  template: book-theme

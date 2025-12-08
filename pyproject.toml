@@ -2,7 +2,7 @@
 name = "sparse-ir-doc"
 version = "0.1.0"
 dependencies = [
-    "jupyter-book<2.0",
+    "jupyter-book",
     "jupytext",
     "matplotlib",
     "ghp-import",

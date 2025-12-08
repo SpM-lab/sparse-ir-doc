@@ -41,7 +41,7 @@ jobs:
       run: uv sync
       
     - name: Build the book
-      run: uv run jupyter book build --all -v .
+      run: uv run jupyter book build --html
       
     - name: Verify build output
       run: |
