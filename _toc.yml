@@ -12,3 +12,4 @@ parts:
   - file: src/matsubarasum
   - file: src/additional_material
   - file: src/notes
+  - file: src/contribution
