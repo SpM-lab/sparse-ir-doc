@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Periodicity of Green’s functions in imaginary time &#8212; sparse-ir</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'src/tau_periodicity';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Additional material" href="additional_material.html" />
+    <link rel="prev" title="Summation over Matsubara axis" href="matsubarasum.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">sparse-ir</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="greens_function.html">Green’s function and Lehmann representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Periodicity of Green’s functions in imaginary time</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Development history and contributions</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Periodicity of Green’s functions in imaginary time</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodicity-rules">Periodicity rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-domain-tau-in-0-beta">Standard domain: <span class="math notranslate nohighlight">\(\tau \in [0, \beta]\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extended-domain-tau-in-beta-beta">Extended domain: <span class="math notranslate nohighlight">\(\tau \in [-\beta, \beta]\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#special-treatment-of-boundary-points">Special treatment of boundary points</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-tau-0-boundary">The <span class="math notranslate nohighlight">\(\tau = 0\)</span> boundary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-normalize-tau">Implementation: <code class="docutils literal notranslate"><span class="pre">normalize_tau</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-points-language-specific-conventions">Sampling points: language-specific conventions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-julia-0-beta-range">Python / Julia: <span class="math notranslate nohighlight">\([0, \beta]\)</span> range</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rust-beta-2-beta-2-range">Rust: <span class="math notranslate nohighlight">\([-\beta/2, \beta/2]\)</span> range</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="periodicity-of-greens-functions-in-imaginary-time">
+<h1>Periodicity of Green’s functions in imaginary time<a class="headerlink" href="#periodicity-of-greens-functions-in-imaginary-time" title="Link to this heading">#</a></h1>
+<div class="math notranslate nohighlight">
+\[
+\newcommand{\iv}{{\mathrm{i}\nu}}
+\newcommand{\dd}{{\mathrm{d}}}
+\]</div>
+<p>This note explains how sparse-ir handles the periodicity of imaginary-time Green’s functions, including the treatment of boundary points.</p>
+<section id="periodicity-rules">
+<h2>Periodicity rules<a class="headerlink" href="#periodicity-rules" title="Link to this heading">#</a></h2>
+<p>Green’s functions in imaginary time satisfy periodicity conditions that depend on statistics:</p>
+<p><strong>Fermions (anti-periodic):</strong></p>
+<div class="math notranslate nohighlight">
+\[
+G(\tau + \beta) = -G(\tau)
+\]</div>
+<p><strong>Bosons (periodic):</strong></p>
+<div class="math notranslate nohighlight">
+\[
+G(\tau + \beta) = G(\tau)
+\]</div>
+<p>These conditions arise from the trace over the thermal density matrix and the (anti-)commutation relations of the operators.</p>
+</section>
+<section id="standard-domain-tau-in-0-beta">
+<h2>Standard domain: <span class="math notranslate nohighlight">\(\tau \in [0, \beta]\)</span><a class="headerlink" href="#standard-domain-tau-in-0-beta" title="Link to this heading">#</a></h2>
+<p>The standard domain for imaginary time is <span class="math notranslate nohighlight">\(\tau \in [0, \beta]\)</span>. Within this interval, the Green’s function is well-defined and the boundary values satisfy:</p>
+<div class="math notranslate nohighlight">
+\[
+G(0^+) = \mp G(\beta^-) \quad \text{(upper sign: fermion, lower: boson)}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(0^+\)</span> and <span class="math notranslate nohighlight">\(\beta^-\)</span> denote limits from above and below, respectively.</p>
+</section>
+<section id="extended-domain-tau-in-beta-beta">
+<h2>Extended domain: <span class="math notranslate nohighlight">\(\tau \in [-\beta, \beta]\)</span><a class="headerlink" href="#extended-domain-tau-in-beta-beta" title="Link to this heading">#</a></h2>
+<p>For numerical convenience, sparse-ir supports the extended domain <span class="math notranslate nohighlight">\(\tau \in [-\beta, \beta]\)</span>.
+Values in the negative range <span class="math notranslate nohighlight">\(\tau \in [-\beta, 0)\)</span> are mapped to <span class="math notranslate nohighlight">\([0, \beta]\)</span> using the periodicity relation:</p>
+<div class="math notranslate nohighlight">
+\[
+G(\tau) = \zeta \cdot G(\tau + \beta) \quad \text{for } \tau &lt; 0
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\zeta = -1\)</span> for fermions and <span class="math notranslate nohighlight">\(\zeta = +1\)</span> for bosons.</p>
+</section>
+<section id="special-treatment-of-boundary-points">
+<h2>Special treatment of boundary points<a class="headerlink" href="#special-treatment-of-boundary-points" title="Link to this heading">#</a></h2>
+<section id="the-tau-0-boundary">
+<h3>The <span class="math notranslate nohighlight">\(\tau = 0\)</span> boundary<a class="headerlink" href="#the-tau-0-boundary" title="Link to this heading">#</a></h3>
+<p>The point <span class="math notranslate nohighlight">\(\tau = 0\)</span> requires special care due to the discontinuity in fermionic Green’s functions.
+In IEEE 754 floating-point arithmetic, there are two representations of zero: <span class="math notranslate nohighlight">\(+0\)</span> and <span class="math notranslate nohighlight">\(-0\)</span>.
+sparse-ir uses this to distinguish the limits:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Value</p></th>
+<th class="head"><p>Interpretation</p></th>
+<th class="head"><p>Mapped to</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(+0.0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau = 0^+\)</span> (from above)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau = 0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(-0.0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau = 0^-\)</span> (from below)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau = \beta\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This convention is consistent with the periodicity relation:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(G(0^-) = G(-\epsilon \to 0) = \zeta \cdot G(\beta - \epsilon) = \zeta \cdot G(\beta^-)\)</span></p></li>
+</ul>
+</section>
+<section id="implementation-normalize-tau">
+<h3>Implementation: <code class="docutils literal notranslate"><span class="pre">normalize_tau</span></code><a class="headerlink" href="#implementation-normalize-tau" title="Link to this heading">#</a></h3>
+<p>The function <code class="docutils literal notranslate"><span class="pre">normalize_tau</span></code> (available in both Python and Julia) handles this mapping:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sparse_ir._util</span><span class="w"> </span><span class="kn">import</span> <span class="n">normalize_tau</span>
+
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">10.0</span>
+
+<span class="c1"># Positive zero: τ = 0⁺</span>
+<span class="n">tau_norm</span><span class="p">,</span> <span class="n">sign</span> <span class="o">=</span> <span class="n">normalize_tau</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="o">+</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<span class="c1"># tau_norm = 0.0, sign = +1.0</span>
+
+<span class="c1"># Negative zero: τ = 0⁻ → τ = β with sign flip (fermion)</span>
+<span class="n">tau_norm</span><span class="p">,</span> <span class="n">sign</span> <span class="o">=</span> <span class="n">normalize_tau</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<span class="c1"># tau_norm = 10.0, sign = -1.0</span>
+
+<span class="c1"># Negative tau: τ = -3 → τ = 7 with sign flip (fermion)</span>
+<span class="n">tau_norm</span><span class="p">,</span> <span class="n">sign</span> <span class="o">=</span> <span class="n">normalize_tau</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<span class="c1"># tau_norm = 7.0, sign = -1.0</span>
+
+<span class="c1"># Bosonic case: no sign flip</span>
+<span class="n">tau_norm</span><span class="p">,</span> <span class="n">sign</span> <span class="o">=</span> <span class="n">normalize_tau</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<span class="c1"># tau_norm = 7.0, sign = +1.0</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sampling-points-language-specific-conventions">
+<h2>Sampling points: language-specific conventions<a class="headerlink" href="#sampling-points-language-specific-conventions" title="Link to this heading">#</a></h2>
+<p>The default tau sampling points are generated differently across language implementations:</p>
+<section id="python-julia-0-beta-range">
+<h3>Python / Julia: <span class="math notranslate nohighlight">\([0, \beta]\)</span> range<a class="headerlink" href="#python-julia-0-beta-range" title="Link to this heading">#</a></h3>
+<p>For backward compatibility with existing codes, the Python (<code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code>) and Julia (<code class="docutils literal notranslate"><span class="pre">SparseIR.jl</span></code>) implementations generate sampling points in the standard domain <span class="math notranslate nohighlight">\([0, \beta]\)</span>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sparse_ir</span>
+
+<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">wmax</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">default_tau_sampling_points</span><span class="p">()</span>
+<span class="c1"># All points in [0, β], sorted in ascending order</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">use_positive_taus</span></code> parameter controls this behavior:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">use_positive_taus=True</span></code> (default): Points are folded to <span class="math notranslate nohighlight">\([0, \beta]\)</span> using <span class="math notranslate nohighlight">\(\tau \mapsto \tau \mod \beta\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">use_positive_taus=False</span></code>: Points are returned as generated by the backend (symmetric around <span class="math notranslate nohighlight">\(\beta/2\)</span>)</p></li>
+</ul>
+</section>
+<section id="rust-beta-2-beta-2-range">
+<h3>Rust: <span class="math notranslate nohighlight">\([-\beta/2, \beta/2]\)</span> range<a class="headerlink" href="#rust-beta-2-beta-2-range" title="Link to this heading">#</a></h3>
+<p>The Rust backend (<code class="docutils literal notranslate"><span class="pre">sparse-ir-rs</span></code>) natively generates sampling points in the symmetric range <span class="math notranslate nohighlight">\([-\beta/2, \beta/2]\)</span>.
+This convention is chosen with future extensions in mind:</p>
+<ul class="simple">
+<li><p><strong>Absolute zero limit</strong>: As <span class="math notranslate nohighlight">\(\beta \to \infty\)</span>, the domain naturally extends to <span class="math notranslate nohighlight">\((-\infty, \infty)\)</span></p></li>
+</ul>
+<p>The Python/Julia wrappers automatically convert these points to <span class="math notranslate nohighlight">\([0, \beta]\)</span> when <code class="docutils literal notranslate"><span class="pre">use_positive_taus=True</span></code>.</p>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Concept</p></th>
+<th class="head"><p>Fermion</p></th>
+<th class="head"><p>Boson</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Periodicity</p></td>
+<td><p><span class="math notranslate nohighlight">\(G(\tau+\beta) = -G(\tau)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(G(\tau+\beta) = G(\tau)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Sign factor <span class="math notranslate nohighlight">\(\zeta\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(+1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(-0.0\)</span> maps to</p></td>
+<td><p><span class="math notranslate nohighlight">\((\beta, -1)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\((\beta, +1)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Negative <span class="math notranslate nohighlight">\(\tau\)</span> maps to</p></td>
+<td><p><span class="math notranslate nohighlight">\((\tau+\beta, -1)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\((\tau+\beta, +1)\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This handling ensures consistent evaluation of Green’s functions across the extended domain while maintaining proper periodicity conditions.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<p>For more details on imaginary-time Green’s functions and their properties, see:</p>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="greens_function.html"><span class="doc std std-doc">Green’s function and Lehmann representation</span></a> page</p></li>
+<li><p>The <a class="reference internal" href="matsubarasum.html"><span class="doc std std-doc">Summation over Matsubara axis</span></a> note for related boundary considerations</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./src"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="matsubarasum.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Summation over Matsubara axis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="additional_material.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Additional material</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodicity-rules">Periodicity rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-domain-tau-in-0-beta">Standard domain: <span class="math notranslate nohighlight">\(\tau \in [0, \beta]\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extended-domain-tau-in-beta-beta">Extended domain: <span class="math notranslate nohighlight">\(\tau \in [-\beta, \beta]\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#special-treatment-of-boundary-points">Special treatment of boundary points</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-tau-0-boundary">The <span class="math notranslate nohighlight">\(\tau = 0\)</span> boundary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-normalize-tau">Implementation: <code class="docutils literal notranslate"><span class="pre">normalize_tau</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-points-language-specific-conventions">Sampling points: language-specific conventions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-julia-0-beta-range">Python / Julia: <span class="math notranslate nohighlight">\([0, \beta]\)</span> range</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rust-beta-2-beta-2-range">Rust: <span class="math notranslate nohighlight">\([-\beta/2, \beta/2]\)</span> range</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By sparse-ir developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
