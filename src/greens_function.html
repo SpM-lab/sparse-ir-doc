@@ -177,7 +177,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tau_periodicity.html">Periodicity of Green’s functions in imaginary time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tau_periodicity.html">Periodicity in imaginary time (Green’s functions and basis functions)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -284,7 +284,10 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-particle-greens-function">One-particle Green’s function</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lehmann-representation">Lehmann representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lehmann-representation">Lehmann representation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imaginary-time-domain-anti-periodicity-and-special-points">Imaginary-time domain, (anti-)periodicity, and special points</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regularization-of-the-bosonic-kernel">Regularization of the bosonic kernel</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-logistic-kernel-with-modified-spectral-function">Method 1: Logistic kernel with modified spectral function</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-regularized-bose-kernel">Method 2: Regularized Bose kernel</a></li>
@@ -372,7 +375,7 @@ The Lehmann representation can be transformed to the imaginary-time domain as</p
     G(\tau) &amp;= - \int_{-\infty}^\infty \dd\omega K(\tau, \omega) A(\omega),
 \end{align}
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(0 &lt; \tau &lt; \beta\)</span> and</p>
+<p>where the <strong>primary domain</strong> is the open interval <span class="math notranslate nohighlight">\(0 &lt; \tau &lt; \beta\)</span> and</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
@@ -384,6 +387,28 @@ The Lehmann representation can be transformed to the imaginary-time domain as</p
 \end{align}
 \end{split}\]</div>
 <p>The minus sign originates from our convention <span class="math notranslate nohighlight">\(K(\tau, \omega) &gt; 0\)</span>.</p>
+<section id="imaginary-time-domain-anti-periodicity-and-special-points">
+<h3>Imaginary-time domain, (anti-)periodicity, and special points<a class="headerlink" href="#imaginary-time-domain-anti-periodicity-and-special-points" title="Link to this heading">#</a></h3>
+<p>The (anti-)periodicity in imaginary time is a <strong>symmetry dictated by statistics</strong> and should be shared consistently by
+the Green’s function (G(\tau)) and any basis functions used to represent it (e.g. IR/DLR basis functions in (\tau)).
+Introducing the sign factor
+(\zeta=-1) (fermion) and (\zeta=+1) (boson), the rule is</p>
+<div class="math notranslate nohighlight">
+\[
+f(\tau+\beta)=\zeta\, f(\tau),
+\]</div>
+<p>for (\tau) away from boundary/special points, where (f) may stand for (G) itself or a basis function.</p>
+<p>In practice, (G(\tau)) (and likewise the basis functions) are smooth on ((0,\beta)), while the boundary points
+(\tau\in{-\beta,\pm 0,\beta}) require one-sided interpretations:</p>
+<ul class="simple">
+<li><p>(\tau=0) and (\tau=\beta) are understood as <strong>limits</strong>, (0^+) and (\beta^-), so that the endpoint relation is
+(G(0^+)=\zeta,G(\beta^-)).</p></li>
+<li><p>When extending to negative (\tau) (e.g. (\tau\in[-\beta,0))), values are folded back to ((0,\beta]) via
+(f(\tau)=\zeta,f(\tau+\beta)).</p></li>
+</ul>
+<p>For implementation details (including the distinction between (+0) and (-0) in floating-point arithmetic),
+see <a class="reference internal" href="tau_periodicity.html"><span class="doc std std-doc">Periodicity of Green’s functions in imaginary time</span></a>.</p>
+</section>
 </section>
 <section id="regularization-of-the-bosonic-kernel">
 <h2>Regularization of the bosonic kernel<a class="headerlink" href="#regularization-of-the-bosonic-kernel" title="Link to this heading">#</a></h2>
@@ -570,7 +595,10 @@ keeping the dependence on <span class="math notranslate nohighlight">\(\beta\)</
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-particle-greens-function">One-particle Green’s function</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lehmann-representation">Lehmann representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lehmann-representation">Lehmann representation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imaginary-time-domain-anti-periodicity-and-special-points">Imaginary-time domain, (anti-)periodicity, and special points</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regularization-of-the-bosonic-kernel">Regularization of the bosonic kernel</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-logistic-kernel-with-modified-spectral-function">Method 1: Logistic kernel with modified spectral function</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-regularized-bose-kernel">Method 2: Regularized Bose kernel</a></li>

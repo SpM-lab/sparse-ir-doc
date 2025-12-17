@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Periodicity of Green’s functions in imaginary time &#8212; sparse-ir</title>
+    <title>Periodicity in imaginary time (Green’s functions and basis functions) &#8212; sparse-ir</title>
   
   
   
@@ -177,7 +177,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Periodicity of Green’s functions in imaginary time</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Periodicity in imaginary time (Green’s functions and basis functions)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -273,7 +273,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Periodicity of Green’s functions in imaginary time</h1>
+    <h1>Periodicity in imaginary time (Green’s functions and basis functions)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -283,17 +283,15 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodicity-rules">Periodicity rules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-domain-tau-in-0-beta">Standard domain: <span class="math notranslate nohighlight">\(\tau \in [0, \beta]\)</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extended-domain-tau-in-beta-beta">Extended domain: <span class="math notranslate nohighlight">\(\tau \in [-\beta, \beta]\)</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#special-treatment-of-boundary-points">Special treatment of boundary points</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-tau-0-boundary">The <span class="math notranslate nohighlight">\(\tau = 0\)</span> boundary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anti-periodicity-rules">(Anti-)periodicity rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#special-points-and-conventions-in-sparse-ir">Special points and conventions in sparse-ir</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-tau-0-special-point-and-pm-0">The (\tau=0) special point and (\pm 0)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-normalize-tau">Implementation: <code class="docutils literal notranslate"><span class="pre">normalize_tau</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-points-language-specific-conventions">Sampling points: language-specific conventions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-julia-0-beta-range">Python / Julia: <span class="math notranslate nohighlight">\([0, \beta]\)</span> range</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rust-beta-2-beta-2-range">Rust: <span class="math notranslate nohighlight">\([-\beta/2, \beta/2]\)</span> range</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-julia-0-beta-range">Python / Julia: ((0, \beta)) range</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rust-beta-2-beta-2-range">Rust: ((-\beta/2, \beta/2)) range</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
@@ -309,17 +307,19 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="periodicity-of-greens-functions-in-imaginary-time">
-<h1>Periodicity of Green’s functions in imaginary time<a class="headerlink" href="#periodicity-of-greens-functions-in-imaginary-time" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="periodicity-in-imaginary-time-greens-functions-and-basis-functions">
+<h1>Periodicity in imaginary time (Green’s functions and basis functions)<a class="headerlink" href="#periodicity-in-imaginary-time-greens-functions-and-basis-functions" title="Link to this heading">#</a></h1>
 <div class="math notranslate nohighlight">
 \[
 \newcommand{\iv}{{\mathrm{i}\nu}}
 \newcommand{\dd}{{\mathrm{d}}}
 \]</div>
-<p>This note explains how sparse-ir handles the periodicity of imaginary-time Green’s functions, including the treatment of boundary points.</p>
-<section id="periodicity-rules">
-<h2>Periodicity rules<a class="headerlink" href="#periodicity-rules" title="Link to this heading">#</a></h2>
-<p>Green’s functions in imaginary time satisfy periodicity conditions that depend on statistics:</p>
+<p>This note explains how sparse-ir handles (anti-)periodicity in imaginary time, including the treatment of boundary/special points.
+The key idea is that the periodicity rule is a <strong>statistical symmetry</strong> and should be shared consistently by the Green’s function (G(\tau))
+and any basis functions used to represent it (e.g. IR/DLR basis functions in (\tau)).</p>
+<section id="anti-periodicity-rules">
+<h2>(Anti-)periodicity rules<a class="headerlink" href="#anti-periodicity-rules" title="Link to this heading">#</a></h2>
+<p>Imaginary-time Green’s functions (and the corresponding basis functions) satisfy periodicity conditions that depend on statistics:</p>
 <p><strong>Fermions (anti-periodic):</strong></p>
 <div class="math notranslate nohighlight">
 \[
@@ -331,60 +331,86 @@ G(\tau + \beta) = -G(\tau)
 G(\tau + \beta) = G(\tau)
 \]</div>
 <p>These conditions arise from the trace over the thermal density matrix and the (anti-)commutation relations of the operators.</p>
+<p>It is convenient to introduce a sign factor (\zeta):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\zeta =
+\begin{cases}
+ -1 &amp; (\mathrm{fermion})\\
+ +1 &amp; (\mathrm{boson})
+\end{cases}
+\end{split}\]</div>
+<p>Then both cases are summarized as (f(\tau+\beta)=\zeta f(\tau)), where (f) may stand for (G) itself or a basis function.</p>
 </section>
-<section id="standard-domain-tau-in-0-beta">
-<h2>Standard domain: <span class="math notranslate nohighlight">\(\tau \in [0, \beta]\)</span><a class="headerlink" href="#standard-domain-tau-in-0-beta" title="Link to this heading">#</a></h2>
-<p>The standard domain for imaginary time is <span class="math notranslate nohighlight">\(\tau \in [0, \beta]\)</span>. Within this interval, the Green’s function is well-defined and the boundary values satisfy:</p>
+<section id="special-points-and-conventions-in-sparse-ir">
+<h2>Special points and conventions in sparse-ir<a class="headerlink" href="#special-points-and-conventions-in-sparse-ir" title="Link to this heading">#</a></h2>
+<p>For (\tau\notin{-\beta,0,\beta}), (f(\tau)) is evaluated using the statistical symmetry
+(f(\tau+\beta)=\zeta f(\tau)) (with (\zeta=-1) for fermions and (\zeta=+1) for bosons).</p>
+<p>At the special points (\tau\in{-\beta,0,\beta}) (and, in floating-point arithmetic, (\pm 0)),
+fermionic objects can be discontinuous, so the point value is <strong>not uniquely defined without a convention</strong>.</p>
+<p>For backward compatibility and convenience, sparse-ir adopts the following one-sided convention:</p>
 <div class="math notranslate nohighlight">
 \[
 G(0^+) = \mp G(\beta^-) \quad \text{(upper sign: fermion, lower: boson)}
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(0^+\)</span> and <span class="math notranslate nohighlight">\(\beta^-\)</span> denote limits from above and below, respectively.</p>
-</section>
-<section id="extended-domain-tau-in-beta-beta">
-<h2>Extended domain: <span class="math notranslate nohighlight">\(\tau \in [-\beta, \beta]\)</span><a class="headerlink" href="#extended-domain-tau-in-beta-beta" title="Link to this heading">#</a></h2>
-<p>For numerical convenience, sparse-ir supports the extended domain <span class="math notranslate nohighlight">\(\tau \in [-\beta, \beta]\)</span>.
-Values in the negative range <span class="math notranslate nohighlight">\(\tau \in [-\beta, 0)\)</span> are mapped to <span class="math notranslate nohighlight">\([0, \beta]\)</span> using the periodicity relation:</p>
+<p>where <span class="math notranslate nohighlight">\(0^+\)</span> and <span class="math notranslate nohighlight">\(\beta^-\)</span> denote limits from above and below, respectively.
+Equivalently, with (\zeta), this reads (G(0^+)=\zeta,G(\beta^-)).</p>
+<p>With this convention, one can treat (\tau)-dependent basis functions as a continuous function on ([0,\beta]) by
+interpreting endpoint values as (f(0)\equiv f(0^+)) and (f(\beta)\equiv f(\beta^-)).</p>
+<p>For general (\tau) (including negative values), sparse-ir reduces evaluation to (\tau_\mathrm{norm}\in[0,\beta]) plus a prefactor:</p>
 <div class="math notranslate nohighlight">
 \[
-G(\tau) = \zeta \cdot G(\tau + \beta) \quad \text{for } \tau &lt; 0
+f(\tau) = \mathrm{sign}\cdot f(\tau_\mathrm{norm}),
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\zeta = -1\)</span> for fermions and <span class="math notranslate nohighlight">\(\zeta = +1\)</span> for bosons.</p>
-</section>
-<section id="special-treatment-of-boundary-points">
-<h2>Special treatment of boundary points<a class="headerlink" href="#special-treatment-of-boundary-points" title="Link to this heading">#</a></h2>
-<section id="the-tau-0-boundary">
-<h3>The <span class="math notranslate nohighlight">\(\tau = 0\)</span> boundary<a class="headerlink" href="#the-tau-0-boundary" title="Link to this heading">#</a></h3>
-<p>The point <span class="math notranslate nohighlight">\(\tau = 0\)</span> requires special care due to the discontinuity in fermionic Green’s functions.
+<p>where the convention at the special points is encoded in how (\tau_\mathrm{norm}) is chosen.
+In particular, (\tau=-\beta) is interpreted via one-sided limits (e.g. (-\beta^+\mapsto 0^+)) rather than as a regular interior point.</p>
+<section id="the-tau-0-special-point-and-pm-0">
+<h3>The (\tau=0) special point and (\pm 0)<a class="headerlink" href="#the-tau-0-special-point-and-pm-0" title="Link to this heading">#</a></h3>
+<p>The special points (\tau\in{-\beta,0,\beta}) require special care due to the discontinuity in fermionic Green’s functions.
+In sparse-ir, boundary points are interpreted as one-sided limits (e.g. (0^+), (\beta^-)) so that the folded representation remains consistent.
 In IEEE 754 floating-point arithmetic, there are two representations of zero: <span class="math notranslate nohighlight">\(+0\)</span> and <span class="math notranslate nohighlight">\(-0\)</span>.
-sparse-ir uses this to distinguish the limits:</p>
+sparse-ir uses this to distinguish the limits.</p>
+<p>More generally, the following special-point conventions are used (shown as the mapping returned by <code class="docutils literal notranslate"><span class="pre">normalize_tau</span></code>):</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Value</p></th>
+<tr class="row-odd"><th class="head"><p>Input (\tau)</p></th>
 <th class="head"><p>Interpretation</p></th>
-<th class="head"><p>Mapped to</p></th>
+<th class="head"><p>Output ((\tau_\mathrm{norm}, \mathrm{sign}))</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(+0.0\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(\tau = 0^+\)</span> (from above)</p></td>
-<td><p><span class="math notranslate nohighlight">\(\tau = 0\)</span></p></td>
+<tr class="row-even"><td><p>(+0.0)</p></td>
+<td><p>(0^+)</p></td>
+<td><p>((0.0, +1))</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(-0.0\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(\tau = 0^-\)</span> (from below)</p></td>
-<td><p><span class="math notranslate nohighlight">\(\tau = \beta\)</span></p></td>
+<tr class="row-odd"><td><p>(-0.0)</p></td>
+<td><p>(0^-)</p></td>
+<td><p>((\beta, \zeta))</p></td>
+</tr>
+<tr class="row-even"><td><p>(\beta)</p></td>
+<td><p>(\beta^-)</p></td>
+<td><p>((\beta, +1))</p></td>
+</tr>
+<tr class="row-odd"><td><p>(-\beta)</p></td>
+<td><p>(-\beta^+)</p></td>
+<td><p>((0.0, \zeta))</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>This convention is consistent with the periodicity relation:</p>
+<p>Notes:</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(G(0^-) = G(-\epsilon \to 0) = \zeta \cdot G(\beta - \epsilon) = \zeta \cdot G(\beta^-)\)</span></p></li>
+<li><p>Distinguishing (+0) and (-0) is a natural way (supported by IEEE 754) to represent the two-sided limit at (\tau=0),
+and is necessary to handle the fermionic discontinuity.</p></li>
+<li><p>Treating the input (\tau=\beta) as (\beta^-) preserves backward compatibility: it allows basis functions to be treated as continuous on ([0,\beta])
+by using the representative values (f(0)\equiv f(0^+)) and (f(\beta)\equiv f(\beta^-)).</p></li>
 </ul>
 </section>
 <section id="implementation-normalize-tau">
 <h3>Implementation: <code class="docutils literal notranslate"><span class="pre">normalize_tau</span></code><a class="headerlink" href="#implementation-normalize-tau" title="Link to this heading">#</a></h3>
-<p>The function <code class="docutils literal notranslate"><span class="pre">normalize_tau</span></code> (available in both Python and Julia) handles this mapping:</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">normalize_tau</span></code> (available in both Python and Julia) provides a canonical ((\tau_\mathrm{norm}, \mathrm{sign}))
+pair such that evaluation can be reduced to (\tau_\mathrm{norm}\in[0,\beta]) together with a prefactor (\mathrm{sign}\in{+1,-1})
+implementing the (anti-)periodicity:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sparse_ir._util</span><span class="w"> </span><span class="kn">import</span> <span class="n">normalize_tau</span>
 
 <span class="n">beta</span> <span class="o">=</span> <span class="mf">10.0</span>
@@ -412,13 +438,13 @@ sparse-ir uses this to distinguish the limits:</p>
 <h2>Sampling points: language-specific conventions<a class="headerlink" href="#sampling-points-language-specific-conventions" title="Link to this heading">#</a></h2>
 <p>The default tau sampling points are generated differently across language implementations:</p>
 <section id="python-julia-0-beta-range">
-<h3>Python / Julia: <span class="math notranslate nohighlight">\([0, \beta]\)</span> range<a class="headerlink" href="#python-julia-0-beta-range" title="Link to this heading">#</a></h3>
-<p>For backward compatibility with existing codes, the Python (<code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code>) and Julia (<code class="docutils literal notranslate"><span class="pre">SparseIR.jl</span></code>) implementations generate sampling points in the standard domain <span class="math notranslate nohighlight">\([0, \beta]\)</span>:</p>
+<h3>Python / Julia: ((0, \beta)) range<a class="headerlink" href="#python-julia-0-beta-range" title="Link to this heading">#</a></h3>
+<p>For backward compatibility with existing codes, the Python (<code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code>) and Julia (<code class="docutils literal notranslate"><span class="pre">SparseIR.jl</span></code>) implementations generate sampling points in the conventional open interval ((0,\beta)):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sparse_ir</span>
 
 <span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">wmax</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">points</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">default_tau_sampling_points</span><span class="p">()</span>
-<span class="c1"># All points in [0, β], sorted in ascending order</span>
+<span class="c1"># All points in (0, β), sorted in ascending order</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">use_positive_taus</span></code> parameter controls this behavior:</p>
@@ -428,8 +454,8 @@ sparse-ir uses this to distinguish the limits:</p>
 </ul>
 </section>
 <section id="rust-beta-2-beta-2-range">
-<h3>Rust: <span class="math notranslate nohighlight">\([-\beta/2, \beta/2]\)</span> range<a class="headerlink" href="#rust-beta-2-beta-2-range" title="Link to this heading">#</a></h3>
-<p>The Rust backend (<code class="docutils literal notranslate"><span class="pre">sparse-ir-rs</span></code>) natively generates sampling points in the symmetric range <span class="math notranslate nohighlight">\([-\beta/2, \beta/2]\)</span>.
+<h3>Rust: ((-\beta/2, \beta/2)) range<a class="headerlink" href="#rust-beta-2-beta-2-range" title="Link to this heading">#</a></h3>
+<p>The Rust backend (<code class="docutils literal notranslate"><span class="pre">sparse-ir-rs</span></code>) natively generates sampling points in the symmetric open interval ((-\beta/2, \beta/2)).
 This convention is chosen with future extensions in mind:</p>
 <ul class="simple">
 <li><p><strong>Absolute zero limit</strong>: As <span class="math notranslate nohighlight">\(\beta \to \infty\)</span>, the domain naturally extends to <span class="math notranslate nohighlight">\((-\infty, \infty)\)</span></p></li>
@@ -447,11 +473,11 @@ This convention is chosen with future extensions in mind:</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Periodicity</p></td>
-<td><p><span class="math notranslate nohighlight">\(G(\tau+\beta) = -G(\tau)\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(G(\tau+\beta) = G(\tau)\)</span></p></td>
+<tr class="row-even"><td><p>Periodicity (also for basis)</p></td>
+<td><p><span class="math notranslate nohighlight">\(f(\tau+\beta) = -f(\tau)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f(\tau+\beta) = f(\tau)\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>Sign factor <span class="math notranslate nohighlight">\(\zeta\)</span></p></td>
+<tr class="row-odd"><td><p>Sign factor (\zeta)</p></td>
 <td><p><span class="math notranslate nohighlight">\(-1\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(+1\)</span></p></td>
 </tr>
@@ -466,7 +492,8 @@ This convention is chosen with future extensions in mind:</p>
 </tbody>
 </table>
 </div>
-<p>This handling ensures consistent evaluation of Green’s functions across the extended domain while maintaining proper periodicity conditions.</p>
+<p>This handling ensures consistent evaluation of Green’s functions and basis functions for arbitrary (\tau) while maintaining the correct (anti-)periodicity,
+with special-point values understood as one-sided limits.</p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
@@ -542,17 +569,15 @@ This convention is chosen with future extensions in mind:</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodicity-rules">Periodicity rules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-domain-tau-in-0-beta">Standard domain: <span class="math notranslate nohighlight">\(\tau \in [0, \beta]\)</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extended-domain-tau-in-beta-beta">Extended domain: <span class="math notranslate nohighlight">\(\tau \in [-\beta, \beta]\)</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#special-treatment-of-boundary-points">Special treatment of boundary points</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-tau-0-boundary">The <span class="math notranslate nohighlight">\(\tau = 0\)</span> boundary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anti-periodicity-rules">(Anti-)periodicity rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#special-points-and-conventions-in-sparse-ir">Special points and conventions in sparse-ir</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-tau-0-special-point-and-pm-0">The (\tau=0) special point and (\pm 0)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-normalize-tau">Implementation: <code class="docutils literal notranslate"><span class="pre">normalize_tau</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-points-language-specific-conventions">Sampling points: language-specific conventions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-julia-0-beta-range">Python / Julia: <span class="math notranslate nohighlight">\([0, \beta]\)</span> range</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rust-beta-2-beta-2-range">Rust: <span class="math notranslate nohighlight">\([-\beta/2, \beta/2]\)</span> range</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-julia-0-beta-range">Python / Julia: ((0, \beta)) range</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rust-beta-2-beta-2-range">Rust: ((-\beta/2, \beta/2)) range</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
