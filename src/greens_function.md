@@ -77,7 +77,7 @@ $$
 \end{align}
 $$ (lehmann-tau)
 
-where $0 < \tau < \beta$ and 
+where the **primary domain** is the open interval $0 < \tau < \beta$ and
 
 $$
 \begin{align}
@@ -90,6 +90,30 @@ $$
 $$
 
 The minus sign originates from our convention $K(\tau, \omega) > 0$.
+
+### Imaginary-time domain, (anti-)periodicity, and special points
+
+The (anti-)periodicity in imaginary time is a **symmetry dictated by statistics** and should be shared consistently by
+the Green's function \(G(\tau)\) and any basis functions used to represent it (e.g. IR/DLR basis functions in \(\tau\)).
+Introducing the sign factor
+\(\zeta=-1\) (fermion) and \(\zeta=+1\) (boson), the rule is
+
+$$
+f(\tau+\beta)=\zeta\, f(\tau),
+$$
+
+for \(\tau\) away from boundary/special points, where \(f\) may stand for \(G\) itself or a basis function.
+
+In practice, \(G(\tau)\) (and likewise the basis functions) are smooth on \((0,\beta)\), while the boundary points
+\(\tau\in\{-\beta,\pm 0,\beta\}\) require one-sided interpretations:
+
+- \(\tau=0\) and \(\tau=\beta\) are understood as **limits**, \(0^+\) and \(\beta^-\), so that the endpoint relation is
+  \(G(0^+)=\zeta\,G(\beta^-)\).
+- When extending to negative \(\tau\) (e.g. \(\tau\in[-\beta,0)\)), values are folded back to \((0,\beta]\) via
+  \(f(\tau)=\zeta\,f(\tau+\beta)\).
+
+For implementation details (including the distinction between \(+0\) and \(-0\) in floating-point arithmetic),
+see [Periodicity of Green's functions in imaginary time](tau_periodicity).
 
 ## Regularization of the bosonic kernel
 
