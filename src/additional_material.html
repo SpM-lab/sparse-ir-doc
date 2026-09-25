@@ -165,7 +165,11 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Conventions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation and conventions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="greens_function.html">Green’s function and Lehmann representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
@@ -258,7 +262,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -274,6 +280,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -288,6 +302,37 @@ document.write(`
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.overleaf.com/read/trcfnpmrhbcr">Lecture note by H. Shinaoka</a></p></li>
 </ul>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div class="docutils container" id="id1">
+<div role="list" class="citation-list">
+<div class="citation" id="id21" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>CYOS19<span class="fn-bracket">]</span></span>
+<p>Naoya Chikano, Kazuyoshi Yoshimi, Junya Otsuki, and Hiroshi Shinaoka. irbasis: Open-source database and software for intermediate-representation basis functions of imaginary-time Green’s function. <em>Computer Physics Communications</em>, 240:181–188, 2019. URL: <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S001046551930058X?via\%3Dihub">https://www.sciencedirect.com/science/article/pii/S001046551930058X?via\%3Dihub</a>, <a class="reference external" href="https://arxiv.org/abs/1807.05237">arXiv:1807.05237</a>, <a class="reference external" href="https://doi.org/10.1016/j.cpc.2019.02.006">doi:10.1016/j.cpc.2019.02.006</a>.</p>
+</div>
+<div class="citation" id="id51" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>KCP22<span class="fn-bracket">]</span></span>
+<p>Jason Kaye, Kun Chen, and Olivier Parcollet. Discrete lehmann representation of imaginary time green's functions. <em>Phys. Rev. B</em>, 105:235115, Jun 2022. URL: <a class="reference external" href="https://link.aps.org/doi/10.1103/PhysRevB.105.235115">https://link.aps.org/doi/10.1103/PhysRevB.105.235115</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevB.105.235115">doi:10.1103/PhysRevB.105.235115</a>.</p>
+</div>
+<div class="citation" id="id3" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>LWC+20<span class="fn-bracket">]</span></span>
+<p>Jia Li, Markus Wallerberger, Naoya Chikano, Chia-Nan Yeh, Emanuel Gull, and Hiroshi Shinaoka. Sparse sampling approach to efficient ab initio calculations at finite temperature. <em>Physical Review B</em>, 101(3):035144, 01 2020. <a class="reference external" href="https://doi.org/10.1103/physrevb.101.035144">doi:10.1103/physrevb.101.035144</a>.</p>
+</div>
+<div class="citation" id="id53" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>MNAM24<span class="fn-bracket">]</span></span>
+<p>Hitoshi Mori, Takuya Nomoto, Ryotaro Arita, and Elena R. Margine. Efficient anisotropic migdal-eliashberg calculations with an intermediate representation basis and wannier interpolation. <em>Phys. Rev. B</em>, 110:064505, Aug 2024. URL: <a class="reference external" href="https://link.aps.org/doi/10.1103/PhysRevB.110.064505">https://link.aps.org/doi/10.1103/PhysRevB.110.064505</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevB.110.064505">doi:10.1103/PhysRevB.110.064505</a>.</p>
+</div>
+<div class="citation" id="id52" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>SCG+21<span class="fn-bracket">]</span></span>
+<p>Hiroshi Shinaoka, Naoya Chikano, Emanuel Gull, Jia Li, Takuya Nomoto, Junya Otsuki, Markus Wallerberger, Tianchun Wang, and Kazuyoshi Yoshimi. Efficient ab initio many-body calculations based on sparse modeling of matsubara green's function. 2021. URL: <a class="reference external" href="https://arxiv.org/abs/2106.12685">https://arxiv.org/abs/2106.12685</a>, <a class="reference external" href="https://doi.org/10.48550/ARXIV.2106.12685">doi:10.48550/ARXIV.2106.12685</a>.</p>
+</div>
+<div class="citation" id="id24" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>SOOY17<span class="fn-bracket">]</span></span>
+<p>Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. <em>Physical Review B</em>, 96(3):035147 – 8, 07 2017. URL: <a class="reference external" href="https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147">https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147</a>, <a class="reference external" href="https://doi.org/10.1103/physrevb.96.035147">doi:10.1103/physrevb.96.035147</a>.</p>
+</div>
+</div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -344,6 +389,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

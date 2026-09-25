@@ -63,7 +63,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Intermediate representation (IR)" href="IR_py.html" />
-    <link rel="prev" title="Welcome to sparse-ir documentation" href="../index.html" />
+    <link rel="prev" title="Notation and conventions" href="notation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -167,7 +167,11 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Conventions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation and conventions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Green’s function and Lehmann representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
@@ -290,7 +294,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regularization-of-the-bosonic-kernel">Regularization of the bosonic kernel</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-logistic-kernel-with-modified-spectral-function">Method 1: Logistic kernel with modified spectral function</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-regularized-bose-kernel">Method 2: Regularized Bose kernel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-regularized-bose-kernel-deprecated">Method 2: Regularized Bose kernel (deprecated)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
 </ul>
 </li>
@@ -326,25 +330,30 @@ G_{ij}(\tau-\tau') = -\langle T_\tau [c_i(\tau){c}^\dagger_j(\tau')]\rangle,
 <p>where <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> denote spin/orbital/band and <span class="math notranslate nohighlight">\(T_\tau\)</span> is the time-ordering operator.
 Here, <span class="math notranslate nohighlight">\(\tau\)</span> represents a imaginary time unit <span class="math notranslate nohighlight">\(\mathrm{i}t\)</span>,
 while <span class="math notranslate nohighlight">\(c_i\)</span>/<span class="math notranslate nohighlight">\(c_j\)</span> is a fermionic or bosonic annihilation/creation operator.</p>
-<p>The Fourier Transformation of <span class="math notranslate nohighlight">\(G_{ij}(\tau)\)</span> (with <span class="math notranslate nohighlight">\(\tau \in [0,\beta]\)</span>) reads</p>
+<p>The Fourier Transformation of <span class="math notranslate nohighlight">\(G_{ij}(\tau)\)</span> (defined for <span class="math notranslate nohighlight">\(0 &lt; \tau &lt; \beta\)</span>) reads</p>
 <div class="math notranslate nohighlight">
 \[
-G_{ij}(\iv_n) = \int_0^{\beta} \dd \tau e^{\iv_n\tau} G_{ij}(\tau),
+G_{ij}(\iv) = \int_0^{\beta} \dd \tau e^{\iv\tau} G_{ij}(\tau),
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\nu_n = (2n+1)\pi/\beta\)</span> (fermion) and <span class="math notranslate nohighlight">\(\nu_n = 2n\pi/\beta\)</span> (boson) with <span class="math notranslate nohighlight">\(n\)</span> being an integer.
+<p>where <span class="math notranslate nohighlight">\(\nu = n\pi/\beta\)</span> is a Matsubara frequency.
+The integer <span class="math notranslate nohighlight">\(n\)</span> is the <strong>reduced frequency</strong>, which the libraries take as input: <span class="math notranslate nohighlight">\(n \equiv \zeta \pmod 2\)</span>, i.e., <span class="math notranslate nohighlight">\(n\)</span> is odd for fermions and even for bosons,
+where <span class="math notranslate nohighlight">\(\zeta\)</span> is the parity of the statistics, <span class="math notranslate nohighlight">\(\zeta = 1\)</span> (fermion) and <span class="math notranslate nohighlight">\(\zeta = 0\)</span> (boson).
+In terms of the ordinary Matsubara index <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(n = 2m + \zeta\)</span>, i.e., <span class="math notranslate nohighlight">\(\nu = (2m+1)\pi/\beta\)</span> (fermion) and <span class="math notranslate nohighlight">\(\nu = 2m\pi/\beta\)</span> (boson).
 The inverse temperature is denoted by <span class="math notranslate nohighlight">\(\beta\)</span> (We take <span class="math notranslate nohighlight">\(\hbar=1\)</span>).
 The inverse transformation is given by</p>
 <div class="math notranslate nohighlight">
 \[
-G_{ij}(\tau) = \frac{1}{\beta}\sum_{n=-\infty}^\infty e^{-\iv_n\tau}G_{ij}(\iv_n).
+G_{ij}(\tau) = \frac{1}{\beta}\sum_{\nu} e^{-\iv\tau}G_{ij}(\iv),
 \]</div>
-<p>Continuing <span class="math notranslate nohighlight">\(G_{ij}(\iv_n)\)</span> to a holomorphic function in the upper half of the complex plane,
+<p>where the sum runs over all fermionic (bosonic) Matsubara frequencies.</p>
+<p>Continuing <span class="math notranslate nohighlight">\(G_{ij}(\iv)\)</span> to a holomorphic function in the upper half of the complex plane,
 the imaginary-frequency (Matsubara) Green’s function can be related to the “ordinary” retarded Green’s function as</p>
 <div class="math notranslate nohighlight">
 \[
 G_{ij}^\mathrm{R}(\omega)=G_{ij}(z \rightarrow \omega+\mathrm{i}0^{+}).
 \]</div>
-<p>In the following, we omit the symbols <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span>, <span class="math notranslate nohighlight">\(n\)</span> unless there is confusion.</p>
+<p>In the following, we omit the indices <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> unless there is confusion.
+The notation is summarized in <a class="reference internal" href="notation.html"><span class="std std-doc">Notation and conventions</span></a>.</p>
 </section>
 <section id="lehmann-representation">
 <h2>Lehmann representation<a class="headerlink" href="#lehmann-representation" title="Link to this heading">#</a></h2>
@@ -364,7 +373,7 @@ A_{ii}(\omega) = -\frac{1}{\pi} \operatorname{Im} G^R_{ii}(\omega)
 <p>for the diagonal (local) components, and more generally</p>
 <div class="math notranslate nohighlight">
 \[
-\boxed{A_{ij}(\omega) = \frac{i}{2\pi}\left(G^R_{ij}(\omega) - G^A_{ij}(\omega)\right)}.
+\boxed{A_{ij}(\omega) = \frac{\mathrm{i}}{2\pi}\left(G^R_{ij}(\omega) - G^A_{ij}(\omega)\right)}.
 \]</div>
 <p>Here <span class="math notranslate nohighlight">\(G^R\)</span> and <span class="math notranslate nohighlight">\(G^A\)</span> denote the retarded and advanced Green’s functions, respectively.
 <span class="math notranslate nohighlight">\(K(\iv, \omega)\)</span> is the so-called analytic continuation kernel.
@@ -379,49 +388,54 @@ The Lehmann representation can be transformed to the imaginary-time domain as</p
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-    K(\tau, \omega) &amp;\equiv - \frac{1}{\beta} \sum_{\iv} e^{-\iv \tau} K(\iv, \omega) =
+    K(\tau, \omega) &amp;\equiv - \frac{1}{\beta} \sum_{\nu} e^{-\iv \tau} K(\iv, \omega) =
     \begin{cases}
         \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}} &amp; (\mathrm{fermion}),\\
         \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}} &amp; (\mathrm{boson})
     \end{cases}.
 \end{align}
 \end{split}\]</div>
-<p>The minus sign originates from our convention <span class="math notranslate nohighlight">\(K(\tau, \omega) &gt; 0\)</span>.</p>
+<p>The minus sign in <a class="reference internal" href="#equation-lehmann-tau">(1)</a> is a convention that makes the fermionic kernel positive, <span class="math notranslate nohighlight">\(K(\tau, \omega) &gt; 0\)</span>;
+this kernel is the logistic kernel <span class="math notranslate nohighlight">\(K^\mathrm{L}\)</span> used below.
+The bosonic kernel is negative for <span class="math notranslate nohighlight">\(\omega &lt; 0\)</span>.</p>
 <section id="imaginary-time-domain-anti-periodicity-and-special-points">
 <h3>Imaginary-time domain, (anti-)periodicity, and special points<a class="headerlink" href="#imaginary-time-domain-anti-periodicity-and-special-points" title="Link to this heading">#</a></h3>
 <p>The (anti-)periodicity in imaginary time is a <strong>symmetry dictated by statistics</strong> and should be shared consistently by
-the Green’s function (G(\tau)) and any basis functions used to represent it (e.g. IR/DLR basis functions in (\tau)).
-Introducing the sign factor
-(\zeta=-1) (fermion) and (\zeta=+1) (boson), the rule is</p>
+the Green’s function <span class="math notranslate nohighlight">\(G(\tau)\)</span> and any basis functions used to represent it (e.g. IR/DLR basis functions in <span class="math notranslate nohighlight">\(\tau\)</span>).
+With the parity <span class="math notranslate nohighlight">\(\zeta=1\)</span> (fermion) and <span class="math notranslate nohighlight">\(\zeta=0\)</span> (boson), the rule is</p>
 <div class="math notranslate nohighlight">
 \[
-f(\tau+\beta)=\zeta\, f(\tau),
+f(\tau+\beta)=(-1)^\zeta f(\tau),
 \]</div>
-<p>for (\tau) away from boundary/special points, where (f) may stand for (G) itself or a basis function.</p>
-<p>In practice, (G(\tau)) (and likewise the basis functions) are smooth on ((0,\beta)), while the boundary points
-(\tau\in{-\beta,\pm 0,\beta}) require one-sided interpretations:</p>
+<p>for <span class="math notranslate nohighlight">\(\tau\)</span> away from boundary/special points, where <span class="math notranslate nohighlight">\(f\)</span> may stand for <span class="math notranslate nohighlight">\(G\)</span> itself or a basis function.</p>
+<p>In practice, <span class="math notranslate nohighlight">\(G(\tau)\)</span> (and likewise the basis functions) are smooth on <span class="math notranslate nohighlight">\((0,\beta)\)</span>, while the boundary points
+<span class="math notranslate nohighlight">\(\tau\in\{-\beta,\pm 0,\beta\}\)</span> require one-sided interpretations:</p>
 <ul class="simple">
-<li><p>(\tau=0) and (\tau=\beta) are understood as <strong>limits</strong>, (0^+) and (\beta^-), so that the endpoint relation is
-(G(0^+)=\zeta,G(\beta^-)).</p></li>
-<li><p>When extending to negative (\tau) (e.g. (\tau\in[-\beta,0))), values are folded back to ((0,\beta]) via
-(f(\tau)=\zeta,f(\tau+\beta)).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau=0\)</span> and <span class="math notranslate nohighlight">\(\tau=\beta\)</span> are understood as <strong>limits</strong>, <span class="math notranslate nohighlight">\(0^+\)</span> and <span class="math notranslate nohighlight">\(\beta^-\)</span>;
+the floating-point input <span class="math notranslate nohighlight">\(-0.0\)</span> is read as <span class="math notranslate nohighlight">\(0^-\)</span> and <span class="math notranslate nohighlight">\(\tau=-\beta\)</span> as <span class="math notranslate nohighlight">\((-\beta)^+\)</span>.
+The periodicity relates the endpoint values as <span class="math notranslate nohighlight">\(G(0^-)=(-1)^\zeta G(\beta^-)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(G(\tau)\)</span> is discontinuous at <span class="math notranslate nohighlight">\(\tau=0\)</span>: for the Green’s function of an elementary operator <span class="math notranslate nohighlight">\(c\)</span>,
+<span class="math notranslate nohighlight">\(G(\tau) = -\langle T_\tau c(\tau) c^\dagger(0) \rangle\)</span>, the jump is <span class="math notranslate nohighlight">\(G(0^+)-G(0^-)=-1\)</span> for <strong>both</strong> statistics,
+so that <span class="math notranslate nohighlight">\(G(0^+)-(-1)^\zeta G(\beta^-)=-1\)</span>.</p></li>
+<li><p>Values at negative <span class="math notranslate nohighlight">\(\tau\)</span>, <span class="math notranslate nohighlight">\(-\beta \le \tau &lt; 0\)</span>, follow from <span class="math notranslate nohighlight">\(f(\tau)=(-1)^\zeta f(\tau+\beta)\)</span>.
+The libraries evaluate functions of <span class="math notranslate nohighlight">\(\tau\)</span> on <span class="math notranslate nohighlight">\([-\beta,\beta]\)</span> and raise an error outside this range.</p></li>
 </ul>
-<p>For implementation details (including the distinction between (+0) and (-0) in floating-point arithmetic),
+<p>For implementation details (including the distinction between <span class="math notranslate nohighlight">\(+0\)</span> and <span class="math notranslate nohighlight">\(-0\)</span> in floating-point arithmetic),
 see <a class="reference internal" href="tau_periodicity.html"><span class="doc std std-doc">Periodicity of Green’s functions in imaginary time</span></a>.</p>
 </section>
 </section>
 <section id="regularization-of-the-bosonic-kernel">
-<h2>Regularization of the bosonic kernel<a class="headerlink" href="#regularization-of-the-bosonic-kernel" title="Link to this heading">#</a></h2>
-<p>The bosonic kernel diverges at <span class="math notranslate nohighlight">\(\omega = 0\)</span>:</p>
+<span id="id1"></span><h2>Regularization of the bosonic kernel<a class="headerlink" href="#regularization-of-the-bosonic-kernel" title="Link to this heading">#</a></h2>
+<p>The bosonic kernel <span class="math notranslate nohighlight">\(K(\tau, \omega)\)</span> above diverges at <span class="math notranslate nohighlight">\(\omega = 0\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-K^\mathrm{B}(\tau, \omega) = \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}} \sim \frac{1}{\beta\omega} \quad (\omega \to 0).
+K(\tau, \omega) = \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}} \sim \frac{1}{\beta\omega} \quad (\omega \to 0).
 \]</div>
 <p>To perform the singular value expansion numerically, this divergence must be regularized.
 There are two common approaches:</p>
 <section id="method-1-logistic-kernel-with-modified-spectral-function">
 <h3>Method 1: Logistic kernel with modified spectral function<a class="headerlink" href="#method-1-logistic-kernel-with-modified-spectral-function" title="Link to this heading">#</a></h3>
-<p>This approach, introduced in <span id="id1">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id52" title="Jason Kaye, Kun Chen, and Olivier Parcollet. Discrete lehmann representation of imaginary time green's functions. Phys. Rev. B, 105:235115, Jun 2022. URL: https://link.aps.org/doi/10.1103/PhysRevB.105.235115, doi:10.1103/PhysRevB.105.235115.">Kaye <em>et al.</em>, 2022</a>]</span>, uses the <strong>logistic kernel</strong> for both fermions and bosons:</p>
+<p>This approach, introduced in <span id="id2">[<a class="reference internal" href="additional_material.html#id51" title="Jason Kaye, Kun Chen, and Olivier Parcollet. Discrete lehmann representation of imaginary time green's functions. Phys. Rev. B, 105:235115, Jun 2022. URL: https://link.aps.org/doi/10.1103/PhysRevB.105.235115, doi:10.1103/PhysRevB.105.235115.">Kaye <em>et al.</em>, 2022</a>]</span>, uses the <strong>logistic kernel</strong> for both fermions and bosons:</p>
 <div class="math notranslate nohighlight" id="equation-kl">
 <span class="eqno">(2)<a class="headerlink" href="#equation-kl" title="Link to this equation">#</a></span>\[
 K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}}.
@@ -442,24 +456,28 @@ G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{L}(\tau,\omega) \rho(\omeg
     \end{cases}
 \end{align}
 \end{split}\]</div>
-<p><strong>Advantage</strong>: The same kernel <span class="math notranslate nohighlight">\(K^\mathrm{L}\)</span> can be used for both fermions and bosons, simplifying the implementation.</p>
-<p><strong>Note</strong>: For bosons, the modified spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> must vanish at least linearly at <span class="math notranslate nohighlight">\(\omega = 0\)</span> to compensate for the <span class="math notranslate nohighlight">\(1/\tanh(\beta\omega/2) \sim 2/(\beta\omega)\)</span> factor.</p>
+<p><strong>Advantage</strong>: The same kernel <span class="math notranslate nohighlight">\(K^\mathrm{L}\)</span> can be used for both fermions and bosons, simplifying the implementation.
+It is the default kernel of the libraries for both statistics.</p>
+<p><strong>Note</strong>: For bosons, the spectral function <span class="math notranslate nohighlight">\(A(\omega)\)</span> must vanish at least linearly at <span class="math notranslate nohighlight">\(\omega = 0\)</span> to compensate for the <span class="math notranslate nohighlight">\(1/\tanh(\beta\omega/2) \sim 2/(\beta\omega)\)</span> factor, so that <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> stays finite.</p>
 </section>
-<section id="method-2-regularized-bose-kernel">
-<h3>Method 2: Regularized Bose kernel<a class="headerlink" href="#method-2-regularized-bose-kernel" title="Link to this heading">#</a></h3>
-<p>This approach, used in <span id="id2">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id25" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span>, introduces a <strong>regularized bosonic kernel</strong>:</p>
+<section id="method-2-regularized-bose-kernel-deprecated">
+<h3>Method 2: Regularized Bose kernel (deprecated)<a class="headerlink" href="#method-2-regularized-bose-kernel-deprecated" title="Link to this heading">#</a></h3>
+<p>This approach, used in <span id="id3">[<a class="reference internal" href="additional_material.html#id24" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span>, introduces a <strong>regularized bosonic kernel</strong>:</p>
 <div class="math notranslate nohighlight" id="equation-kreg">
 <span class="eqno">(3)<a class="headerlink" href="#equation-kreg" title="Link to this equation">#</a></span>\[
-K^\mathrm{reg}(\tau, \omega) = \omega \cdot \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}}.
+K^\mathrm{B}(\tau, \omega) = \omega \cdot \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}}.
 \]</div>
+<p>This kernel is <strong>deprecated</strong>; use the logistic kernel (Method 1) instead.
+Its definition here, together with the dimensionless form given below, is the reference definition of the irbasis paper <span id="id4">[<a class="reference internal" href="additional_material.html#id21" title="Naoya Chikano, Kazuyoshi Yoshimi, Junya Otsuki, and Hiroshi Shinaoka. irbasis: Open-source database and software for intermediate-representation basis functions of imaginary-time Green’s function. Computer Physics Communications, 240:181–188, 2019. URL: https://www.sciencedirect.com/science/article/pii/S001046551930058X?via\%3Dihub, arXiv:1807.05237, doi:10.1016/j.cpc.2019.02.006.">Chikano <em>et al.</em>, 2019</a>]</span>.</p>
 <p>The factor <span class="math notranslate nohighlight">\(\omega\)</span> cancels the <span class="math notranslate nohighlight">\(1/\omega\)</span> divergence, making the kernel well-behaved at <span class="math notranslate nohighlight">\(\omega = 0\)</span>.
 The Lehmann representation becomes</p>
 <div class="math notranslate nohighlight">
 \[
-G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{reg}(\tau,\omega) \rho'(\omega),
+G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{B}(\tau,\omega) \rho'(\omega),
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\rho'(\omega) = A(\omega)/\omega\)</span> is the modified spectral function.</p>
-<p><strong>Advantage</strong>: As shown in <span id="id3">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id25" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span>, the number of basis functions grows only logarithmically with <span class="math notranslate nohighlight">\(\Lambda = \beta\wmax\)</span>, making this representation highly compact for large <span class="math notranslate nohighlight">\(\Lambda\)</span>.</p>
+<p><strong>Basis size</strong>: As shown in <span id="id5">[<a class="reference internal" href="additional_material.html#id24" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span>, the number of basis functions grows only logarithmically with <span class="math notranslate nohighlight">\(\Lambda = \beta\wmax\)</span>.
+The same holds for the logistic kernel of Method 1, so this is not an advantage of this kernel.</p>
 <p><strong>Note</strong>: The physical spectral function <span class="math notranslate nohighlight">\(A(\omega)\)</span> must vanish at least linearly at <span class="math notranslate nohighlight">\(\omega = 0\)</span> for the integral to converge.</p>
 </section>
 <section id="comparison">
@@ -472,23 +490,27 @@ G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{reg}(\tau,\omega) \rho'(\o
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Fermion support</p></td>
+<tr class="row-even"><td><p>Status</p></td>
+<td><p>Default</p></td>
+<td><p>Deprecated</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fermion support</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>Boson support</p></td>
+<tr class="row-even"><td><p>Boson support</p></td>
 <td><p>Yes (with modified <span class="math notranslate nohighlight">\(\rho\)</span>)</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>Kernel form</p></td>
+<tr class="row-odd"><td><p>Kernel form</p></td>
 <td><p><span class="math notranslate nohighlight">\(K^\mathrm{L} = \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(K^\mathrm{reg} = \omega \cdot \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(K^\mathrm{B} = \omega \cdot \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>Modified spectral function</p></td>
+<tr class="row-even"><td><p>Modified spectral function</p></td>
 <td><p><span class="math notranslate nohighlight">\(\rho = A/\tanh(\beta\omega/2)\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\rho' = A/\omega\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>Implementation</p></td>
+<tr class="row-odd"><td><p>Implementation</p></td>
 <td><p>Unified for F/B</p></td>
 <td><p>Separate for B</p></td>
 </tr>
@@ -513,20 +535,24 @@ K^\mathrm{L}(x, y) = \frac{\exp[-\Lambda y (x+1)/2]}{1 + \exp[-\Lambda y]},
 <p>which is the form used internally in the IR and DLR implementations.
 The physical kernel in <span class="math notranslate nohighlight">\((\tau,\omega)\)</span> is obtained by the change of variables above,
 with the integration range <span class="math notranslate nohighlight">\(\omega \in [-\wmax, \wmax]\)</span>.</p>
-<p>For the <strong>regularized Bose kernel</strong>, the dimensionless form is</p>
+<p>For the (deprecated) <strong>regularized Bose kernel</strong>, the dimensionless form is</p>
 <div class="math notranslate nohighlight">
 \[
-K^\mathrm{reg}(x, y) = y \frac{\exp[-\Lambda y (x+1)/2]}{1 - \exp[-\Lambda y]},
+K^\mathrm{B}(x, y) = y \frac{\exp[-\Lambda y (x+1)/2]}{1 - \exp[-\Lambda y]},
 \]</div>
 <p>and the dimensional kernel is recovered via</p>
 <div class="math notranslate nohighlight">
 \[
-K^\mathrm{reg}(\tau, \omega) = \wmax \; K^\mathrm{reg}(x, y), 
+K^\mathrm{B}(\tau, \omega) = \wmax \; K^\mathrm{B}(x, y), 
 \]</div>
 <p>with the same definitions of <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(\Lambda\)</span> as above.
 This convention is consistent with the implementation in the Rust backend (see <code class="docutils literal notranslate"><span class="pre">kernel.rs</span></code>),
 and allows us to tabulate and manipulate kernels on the compact domain <span class="math notranslate nohighlight">\(x,y \in [-1,1]\)</span> while
-keeping the dependence on <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\wmax\)</span> only through <span class="math notranslate nohighlight">\(\Lambda\)</span>.</p>
+keeping the dependence on <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\wmax\)</span> only through <span class="math notranslate nohighlight">\(\Lambda\)</span>.
+With this definition, the singular values of <span class="math notranslate nohighlight">\(K^\mathrm{B}(\tau, \omega)\)</span> are <span class="math notranslate nohighlight">\(S_l = \wmax^{+1} \sqrt{\beta\wmax/2}\, s_l\)</span>,
+where <span class="math notranslate nohighlight">\(s_l\)</span> are those of <span class="math notranslate nohighlight">\(K^\mathrm{B}(x, y)\)</span> (see <a class="reference internal" href="notation.html"><span class="std std-doc">Notation and conventions</span></a>).
+libsparseir releases without the fix of <a class="reference external" href="https://github.com/SpM-lab/sparse-ir-rs/issues/273">sparse-ir-rs#273</a>
+scale the singular values of bases built from this kernel by <span class="math notranslate nohighlight">\(\wmax^{-1}\)</span> instead of <span class="math notranslate nohighlight">\(\wmax^{+1}\)</span>.</p>
 </section>
 </section>
 
@@ -561,12 +587,12 @@ keeping the dependence on <span class="math notranslate nohighlight">\(\beta\)</
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="notation.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Welcome to sparse-ir documentation</p>
+        <p class="prev-next-title">Notation and conventions</p>
       </div>
     </a>
     <a class="right-next"
@@ -601,7 +627,7 @@ keeping the dependence on <span class="math notranslate nohighlight">\(\beta\)</
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regularization-of-the-bosonic-kernel">Regularization of the bosonic kernel</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-logistic-kernel-with-modified-spectral-function">Method 1: Logistic kernel with modified spectral function</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-regularized-bose-kernel">Method 2: Regularized Bose kernel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-regularized-bose-kernel-deprecated">Method 2: Regularized Bose kernel (deprecated)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
 </ul>
 </li>

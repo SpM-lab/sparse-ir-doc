@@ -8,7 +8,7 @@ G(\tau) = - \sum_{p=1}^L K^\mathrm{L}(\tau, \bar{\omega}_p) c_p
 $$
 
 for $0 < \tau < \beta$.
-The pole positions $\{\bar{\omega}_1, \cdots, \bar{\omega}_{L}\}$ are chosen as the extrema of $V'_{L-1}(\omega)$.
+The pole positions $\{\bar{\omega}_1, \cdots, \bar{\omega}_{L}\}$ are by default the $L$ roots of $V_L(\omega)$, the first singular function beyond the IR basis of size $L$.
 $\{K^\mathrm{L}(\tau, \bar{\omega}_p) \}$ forms a non-orthogonal basis set in $\tau$, which is common for fermions and bosons.
 
 
@@ -25,16 +25,18 @@ In addition, we choose the pole locations based on the zeros of the IR basis fun
 The DLR basis functions in the imaginary-time domain are defined using the logistic kernel:
 
 $$
-U_p(\tau) = -K^\mathrm{L}(\tau, \bar{\omega}_p) = -\frac{e^{-\tau \bar{\omega}_p}}{1 + e^{-\beta \bar{\omega}_p}},
+u_p(\tau) = -K^\mathrm{L}(\tau, \bar{\omega}_p) = -\frac{e^{-\tau \bar{\omega}_p}}{1 + e^{-\beta \bar{\omega}_p}},
 $$
 
 for $0 < \tau < \beta$.
-These basis functions are **common for both fermions and bosons**, which is a key advantage of using the logistic kernel.
+On this interval, these basis functions are **common for both fermions and bosons**, which is a key advantage of using the logistic kernel.
+Like any function of $\tau$, they are extended to $-\beta \le \tau < 0$ by $u_p(\tau) = (-1)^\zeta u_p(\tau + \beta)$, where $\zeta = 1$ (fermion) and $\zeta = 0$ (boson); see [Notation and conventions](notation.md).
+The lower-case letter distinguishes them from the IR basis functions $U_l(\tau)$.
 
 The Green's function is expanded as:
 
 $$
-G(\tau) = \sum_{p=1}^L U_p(\tau) c_p.
+G(\tau) = \sum_{p=1}^L u_p(\tau) c_p.
 $$
 
 ### Matsubara basis functions
@@ -44,24 +46,24 @@ The DLR basis functions in the Matsubara-frequency domain differ between fermion
 **Fermions:**
 
 $$
-\hat{U}_p(\mathrm{i}\nu_n) = \frac{1}{\mathrm{i}\nu_n - \bar{\omega}_p},
+\hat{u}_p(\mathrm{i}\nu) = \frac{1}{\mathrm{i}\nu - \bar{\omega}_p},
 $$
 
-where $\nu_n = (2n+1)\pi/\beta$ are fermionic Matsubara frequencies.
+where $\nu = n\pi/\beta$ with odd $n$ (the reduced frequency) is a fermionic Matsubara frequency.
 
 **Bosons:**
 
 $$
-\hat{U}_p(\mathrm{i}\nu_n) = \frac{\tanh(\beta \bar{\omega}_p/2)}{\mathrm{i}\nu_n - \bar{\omega}_p},
+\hat{u}_p(\mathrm{i}\nu) = \frac{\tanh(\beta \bar{\omega}_p/2)}{\mathrm{i}\nu - \bar{\omega}_p},
 $$
 
-where $\nu_n = 2n\pi/\beta$ are bosonic Matsubara frequencies.
+where $\nu = n\pi/\beta$ with even $n$ is a bosonic Matsubara frequency.
 The factor $\tanh(\beta \bar{\omega}_p/2)$ is the regularization factor that compensates for the modified spectral function $\rho(\omega) = A(\omega)/\tanh(\beta\omega/2)$ used with the logistic kernel.
 
 The Matsubara Green's function is expanded as:
 
 $$
-G(\mathrm{i}\nu_n) = \sum_{p=1}^L \hat{U}_p(\mathrm{i}\nu_n) c_p.
+G(\mathrm{i}\nu) = \sum_{p=1}^L \hat{u}_p(\mathrm{i}\nu) c_p.
 $$
 
 ## Fermions

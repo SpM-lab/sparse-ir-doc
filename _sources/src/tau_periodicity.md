@@ -6,8 +6,8 @@ $$
 $$
 
 This note explains how sparse-ir handles (anti-)periodicity in imaginary time, including the treatment of boundary/special points.
-The key idea is that the periodicity rule is a **statistical symmetry** and should be shared consistently by the Green's function \(G(\tau)\)
-and any basis functions used to represent it (e.g. IR/DLR basis functions in \(\tau\)).
+The key idea is that the periodicity rule is a **statistical symmetry** and should be shared consistently by the Green's function $G(\tau)$
+and any basis functions used to represent it (e.g. IR/DLR basis functions in $\tau$).
 
 ## (Anti-)periodicity rules
 
@@ -27,75 +27,88 @@ $$
 
 These conditions arise from the trace over the thermal density matrix and the (anti-)commutation relations of the operators.
 
-It is convenient to introduce a sign factor \(\zeta\):
+It is convenient to introduce the parity $\zeta$ of the statistics (`zeta` in the libraries):
 
 $$
 \zeta =
 \begin{cases}
- -1 & (\mathrm{fermion})\\
- +1 & (\mathrm{boson})
+ 1 & (\mathrm{fermion})\\
+ 0 & (\mathrm{boson})
 \end{cases}
 $$
 
-Then both cases are summarized as \(f(\tau+\beta)=\zeta f(\tau)\), where \(f\) may stand for \(G\) itself or a basis function.
+Then both cases are summarized as $f(\tau+\beta)=(-1)^\zeta f(\tau)$, where $f$ may stand for $G$ itself or a basis function.
 
 ## Special points and conventions in sparse-ir
 
-For \(\tau\notin\{-\beta,0,\beta\}\), \(f(\tau)\) is evaluated using the statistical symmetry
-\(f(\tau+\beta)=\zeta f(\tau)\) (with \(\zeta=-1\) for fermions and \(\zeta=+1\) for bosons).
+The libraries evaluate functions of $\tau$ for $\tau\in[-\beta,\beta]$ and raise an error outside this range.
+For $\tau\notin\{-\beta,0,\beta\}$, $f(\tau)$ is evaluated using the statistical symmetry
+$f(\tau+\beta)=(-1)^\zeta f(\tau)$ (with $(-1)^\zeta=-1$ for fermions and $(-1)^\zeta=+1$ for bosons).
 
-At the special points \(\tau\in\{-\beta,0,\beta\}\) (and, in floating-point arithmetic, \(\pm 0\)),
-fermionic objects can be discontinuous, so the point value is **not uniquely defined without a convention**.
+At the special points $\tau\in\{-\beta,0,\beta\}$ (and, in floating-point arithmetic, $\pm 0$),
+fermionic and bosonic objects alike can be discontinuous, so the point value is **not uniquely defined without a convention**:
+
+- The Green's function of an elementary operator $c$, $G(\tau) = -\langle T_\tau c(\tau) c^\dagger(0) \rangle$,
+  jumps by $G(0^+) - G(0^-) = -1$ for **both** statistics.
+- The IR basis functions satisfy $U_l(0^+) = (-1)^l U_l(\beta^-)$ and $U_l(0^-) = (-1)^\zeta U_l(\beta^-)$,
+  so $U_l$ is discontinuous at $\tau=0$ for even $l$ (fermions) and for odd $l$ (bosons).
 
 For backward compatibility and convenience, sparse-ir adopts the following one-sided convention:
+the inputs $\tau=0$ and $\tau=\beta$ are read as $0^+$ and $\beta^-$,
+and the inputs $\tau=-0.0$ and $\tau=-\beta$ as $0^-$ and $(-\beta)^+$,
+where $0^\pm$ denote the limits from above and below and $\beta^-$ the limit from below.
+The periodicity then relates the one-sided limits as
 
 $$
-G(0^+) = \mp G(\beta^-) \quad \text{(upper sign: fermion, lower: boson)}
+G(0^-) = (-1)^\zeta G(\beta^-), \qquad G((-\beta)^+) = (-1)^\zeta G(0^+),
 $$
 
-where $0^+$ and $\beta^-$ denote limits from above and below, respectively.
-Equivalently, with \(\zeta\), this reads \(G(0^+)=\zeta\,G(\beta^-)\).
+while the jump at $\tau=0$ gives $G(0^+) - (-1)^\zeta G(\beta^-) = -1$.
 
-With this convention, one can treat \(\tau\)-dependent basis functions as a continuous function on \([0,\beta]\) by
-interpreting endpoint values as \(f(0)\equiv f(0^+)\) and \(f(\beta)\equiv f(\beta^-)\).
+With this convention, one can treat $\tau$-dependent basis functions as a continuous function on $[0,\beta]$ by
+interpreting endpoint values as $f(0)\equiv f(0^+)$ and $f(\beta)\equiv f(\beta^-)$.
 
-For general \(\tau\) (including negative values), sparse-ir reduces evaluation to \(\tau_\mathrm{norm}\in[0,\beta]\) plus a prefactor:
+For $\tau\in[-\beta,\beta]$ (including negative values), sparse-ir reduces evaluation to $\tau_\mathrm{norm}\in[0,\beta]$ plus a prefactor:
 
 $$
 f(\tau) = \mathrm{sign}\cdot f(\tau_\mathrm{norm}),
 $$
 
-where the convention at the special points is encoded in how \(\tau_\mathrm{norm}\) is chosen.
-In particular, \(\tau=-\beta\) is interpreted via one-sided limits (e.g. \(-\beta^+\mapsto 0^+\)) rather than as a regular interior point.
+where the convention at the special points is encoded in how $\tau_\mathrm{norm}$ is chosen.
+In particular, $\tau=-\beta$ is interpreted via one-sided limits ($(-\beta)^+\mapsto 0^+$) rather than as a regular interior point.
 
-### The \(\tau=0\) special point and \(\pm 0\)
+### The $\tau=0$ special point and $\pm 0$
 
-The special points \(\tau\in\{-\beta,0,\beta\}\) require special care due to the discontinuity in fermionic Green's functions.
-In sparse-ir, boundary points are interpreted as one-sided limits (e.g. \(0^+\), \(\beta^-\)) so that the folded representation remains consistent.
+The special points $\tau\in\{-\beta,0,\beta\}$ require special care due to the discontinuity of Green's functions at $\tau=0$, which is present for both statistics.
+In sparse-ir, boundary points are interpreted as one-sided limits (e.g. $0^+$, $\beta^-$) so that the folded representation remains consistent.
 In IEEE 754 floating-point arithmetic, there are two representations of zero: $+0$ and $-0$.
 sparse-ir uses this to distinguish the limits.
 
 More generally, the following special-point conventions are used (shown as the mapping returned by `normalize_tau`):
 
-| Input \(\tau\) | Interpretation | Output \((\tau_\mathrm{norm}, \mathrm{sign})\) |
+| Input $\tau$ | Interpretation | Output $(\tau_\mathrm{norm}, \mathrm{sign})$ |
 |---|---|---|
-| \(+0.0\) | \(0^+\) | \((0.0, +1)\) |
-| \(-0.0\) | \(0^-\) | \((\beta, \zeta)\) |
-| \(\beta\) | \(\beta^-\) | \((\beta, +1)\) |
-| \(-\beta\) | \(-\beta^+\) | \((0.0, \zeta)\) |
+| $+0.0$ | $0^+$ | $(0.0, +1)$ |
+| $-0.0$ | $0^-$ | $(\beta, (-1)^\zeta)$ |
+| $\beta$ | $\beta^-$ | $(\beta, +1)$ |
+| $-\beta$ | $(-\beta)^+$ | $(0.0, (-1)^\zeta)$ |
 
 Notes:
 
-- Distinguishing \(+0\) and \(-0\) is a natural way (supported by IEEE 754) to represent the two-sided limit at \(\tau=0\),
-  and is necessary to handle the fermionic discontinuity.
-- Treating the input \(\tau=\beta\) as \(\beta^-\) preserves backward compatibility: it allows basis functions to be treated as continuous on \([0,\beta]\)
-  by using the representative values \(f(0)\equiv f(0^+)\) and \(f(\beta)\equiv f(\beta^-)\).
+- Distinguishing $+0$ and $-0$ is a natural way (supported by IEEE 754) to represent the two-sided limit at $\tau=0$,
+  and is necessary to handle the discontinuity at $\tau=0$, which fermionic and bosonic Green's functions both have.
+- Treating the input $\tau=\beta$ as $\beta^-$ preserves backward compatibility: it allows basis functions to be treated as continuous on $[0,\beta]$
+  by using the representative values $f(0)\equiv f(0^+)$ and $f(\beta)\equiv f(\beta^-)$.
 
 ### Implementation: `normalize_tau`
 
-The function `normalize_tau` (available in both Python and Julia) provides a canonical \((\tau_\mathrm{norm}, \mathrm{sign})\)
-pair such that evaluation can be reduced to \(\tau_\mathrm{norm}\in[0,\beta]\) together with a prefactor \(\mathrm{sign}\in\{+1,-1\}\)
-implementing the (anti-)periodicity:
+The internal helper `normalize_tau` provides a canonical $(\tau_\mathrm{norm}, \mathrm{sign})$
+pair such that evaluation can be reduced to $\tau_\mathrm{norm}\in[0,\beta]$ together with a prefactor $\mathrm{sign}\in\{+1,-1\}$
+implementing the (anti-)periodicity.
+It is not part of the public API and may change without notice:
+in Python it is `sparse_ir._util.normalize_tau`,
+and in Julia it is the unexported `SparseIR.normalize_tau`, which takes the statistics type (e.g. `SparseIR.normalize_tau(Fermionic, τ, β)`).
+The following Python examples illustrate the mapping:
 
 ```python
 from sparse_ir._util import normalize_tau
@@ -121,11 +134,12 @@ tau_norm, sign = normalize_tau('B', -3.0, beta)
 
 ## Sampling points: language-specific conventions
 
-The default tau sampling points are generated differently across language implementations:
+The default tau sampling points are the roots of $U_L(\tau)$, the first basis function beyond a basis of size $L$.
+Their range differs across language implementations:
 
-### Python / Julia: \((0, \beta)\) range
+### Python / Julia: $(0, \beta)$ range
 
-For backward compatibility with existing codes, the Python (`sparse-ir`) and Julia (`SparseIR.jl`) implementations generate sampling points in the conventional open interval \((0,\beta)\):
+For backward compatibility with existing codes, the Python (`sparse-ir`) and Julia (`SparseIR.jl`) implementations generate sampling points in the conventional open interval $(0,\beta)$:
 
 ```python
 import sparse_ir
@@ -136,32 +150,36 @@ points = basis.default_tau_sampling_points()
 ```
 
 The `use_positive_taus` parameter controls this behavior:
-- `use_positive_taus=True` (default): Points are folded to $[0, \beta]$ using $\tau \mapsto \tau \mod \beta$
-- `use_positive_taus=False`: Points are returned as generated by the backend (symmetric around $\beta/2$)
+- `use_positive_taus=True` (default): Points are folded to $(0, \beta)$ using $\tau \mapsto \tau \mod \beta$
+- `use_positive_taus=False`: Points are returned as generated by the backend (in $(-\beta/2, \beta/2]$: pairs $\pm\tau$, plus $\beta/2$ when their number is odd)
 
-### Rust: \((-\beta/2, \beta/2)\) range
+### Rust: $(-\beta/2, \beta/2]$ range
 
-The Rust backend (`sparse-ir-rs`) natively generates sampling points in the symmetric open interval \((-\beta/2, \beta/2)\).
+The Rust backend (`sparse-ir-rs`) natively generates sampling points in the interval $(-\beta/2, \beta/2]$: pairs $\pm\tau$, plus $\beta/2$ when their number is odd.
 This convention is chosen with future extensions in mind:
 
 - **Absolute zero limit**: As $\beta \to \infty$, the domain naturally extends to $(-\infty, \infty)$
 
-The Python/Julia wrappers automatically convert these points to $[0, \beta]$ when `use_positive_taus=True`.
+The Python/Julia wrappers automatically convert these points to $(0, \beta)$ when `use_positive_taus=True`.
 
 ## Summary
 
 | Concept | Fermion | Boson |
 |---------|---------|-------|
 | Periodicity (also for basis) | $f(\tau+\beta) = -f(\tau)$ | $f(\tau+\beta) = f(\tau)$ |
-| Sign factor \(\zeta\) | $-1$ | $+1$ |
+| Parity $\zeta$ | $1$ | $0$ |
+| Sign $(-1)^\zeta$ | $-1$ | $+1$ |
+| Jump $G(0^+) - G(0^-)$ | $-1$ | $-1$ |
 | $-0.0$ maps to | $(\beta, -1)$ | $(\beta, +1)$ |
 | Negative $\tau$ maps to | $(\tau+\beta, -1)$ | $(\tau+\beta, +1)$ |
 
-This handling ensures consistent evaluation of Green's functions and basis functions for arbitrary \(\tau\) while maintaining the correct (anti-)periodicity,
+This handling ensures consistent evaluation of Green's functions and basis functions for any $\tau\in[-\beta,\beta]$ while maintaining the correct (anti-)periodicity,
 with special-point values understood as one-sided limits.
+Outside $[-\beta,\beta]$, the libraries raise an error.
 
 ## References
 
 For more details on imaginary-time Green's functions and their properties, see:
 - The [Green's function and Lehmann representation](greens_function) page
 - The [Summation over Matsubara axis](matsubarasum) note for related boundary considerations
+- The [Notation and conventions](notation) page for the notation used throughout

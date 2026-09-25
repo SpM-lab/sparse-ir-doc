@@ -167,7 +167,11 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Conventions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation and conventions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="greens_function.html">Green’s function and Lehmann representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
@@ -287,29 +291,31 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="summation-over-matsubara-axis">
 <h1>Summation over Matsubara axis<a class="headerlink" href="#summation-over-matsubara-axis" title="Link to this heading">#</a></h1>
-<p>In many cases, we want to perform the summation of a Greens-function-like object <span class="math notranslate nohighlight">\(A(\mathrm{i}\omega)\)</span> over the Matsubara axis.</p>
-<p>The Fourier transform of <span class="math notranslate nohighlight">\(A\)</span> reads</p>
+<p>In many cases, we want to perform the summation of a Greens-function-like object <span class="math notranslate nohighlight">\(f(\mathrm{i}\nu)\)</span> over the Matsubara axis.
+Here, <span class="math notranslate nohighlight">\(\nu = n\pi/\beta\)</span> runs over the fermionic (odd <span class="math notranslate nohighlight">\(n\)</span>) or bosonic (even <span class="math notranslate nohighlight">\(n\)</span>) Matsubara frequencies; the letter <span class="math notranslate nohighlight">\(\omega\)</span> is reserved for real frequencies and <span class="math notranslate nohighlight">\(A\)</span> for the spectral function (see <a class="reference internal" href="notation.html"><span class="std std-doc">Notation and conventions</span></a>).</p>
+<p>The Fourier transform of <span class="math notranslate nohighlight">\(f\)</span> reads</p>
 <div class="math notranslate nohighlight">
 \[
-A(\tau) = \frac{1}{\beta} \sum_{\omega} A(\mathrm{i}\omega) e^{-\mathrm{i}\omega \tau}.
+f(\tau) = \frac{1}{\beta} \sum_{\nu} f(\mathrm{i}\nu) e^{-\mathrm{i}\nu \tau}.
 \]</div>
 <p>This leads to the following the two formula:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
- \sum_{\omega} A(\mathrm{i}\omega) e^{\mathrm{i}\omega 0^+} &amp;= \beta A(\tau=0^-), \\
- \sum_{\omega} A(\mathrm{i}\omega) e^{\mathrm{i}\omega 0^-} &amp;= \beta A(\tau=0^+). \\
+ \sum_{\nu} f(\mathrm{i}\nu) e^{\mathrm{i}\nu 0^+} &amp;= \beta f(\tau=0^-), \\
+ \sum_{\nu} f(\mathrm{i}\nu) e^{\mathrm{i}\nu 0^-} &amp;= \beta f(\tau=0^+). \\
 \end{align}
 \end{split}\]</div>
-<p>We now expand <span class="math notranslate nohighlight">\(A(\mathrm{i}\omega)\)</span> at high frequencies as</p>
+<p>We now expand <span class="math notranslate nohighlight">\(f(\mathrm{i}\nu)\)</span> at high frequencies as</p>
 <div class="math notranslate nohighlight">
 \[
-A(\mathrm{i}\omega) = \frac{c_1}{\mathrm{i}\omega} + \frac{c_2}{(\mathrm{i}\omega)^2} + \cdots.
+f(\mathrm{i}\nu) = \frac{c_1}{\mathrm{i}\nu} + \frac{c_2}{(\mathrm{i}\nu)^2} + \cdots.
 \]</div>
 <p>As discussed in <a class="reference external" href="https://www.research-collection.ethz.ch/handle/20.500.11850/104013">Sec. B3 of E. Gull’s Ph. D thesis</a>,
-<span class="math notranslate nohighlight">\(A(\tau=0^+) = A(\tau=0^-)\)</span> if and only if <span class="math notranslate nohighlight">\(c_1 = 0\)</span>.
-This condition is equivalent that <span class="math notranslate nohighlight">\(A(\mathrm{i}\omega)\)</span> vanishes at high frequencies faster than <span class="math notranslate nohighlight">\(O(1/{\mathrm{i}\omega})\)</span>.
-If <span class="math notranslate nohighlight">\(c_1 \neq 0\)</span>, the summation does NOT converge without a convergence factor and thus <span class="math notranslate nohighlight">\( \sum_{\omega} A(\mathrm{i}\omega) e^{\mathrm{i}\omega 0^+} \neq  \sum_{\omega} A(\mathrm{i}\omega) e^{\mathrm{i}\omega 0^-}\)</span>.</p>
+<span class="math notranslate nohighlight">\(f(\tau=0^+) = f(\tau=0^-)\)</span> if and only if <span class="math notranslate nohighlight">\(c_1 = 0\)</span>.
+This condition is equivalent that <span class="math notranslate nohighlight">\(f(\mathrm{i}\nu)\)</span> vanishes at high frequencies faster than <span class="math notranslate nohighlight">\(O(1/{\mathrm{i}\nu})\)</span>.
+More precisely, <span class="math notranslate nohighlight">\(f(\tau=0^+) - f(\tau=0^-) = -c_1\)</span>: the Green’s function of an elementary operator has <span class="math notranslate nohighlight">\(c_1 = 1\)</span> and jumps by <span class="math notranslate nohighlight">\(-1\)</span> at <span class="math notranslate nohighlight">\(\tau = 0\)</span> for both statistics.
+If <span class="math notranslate nohighlight">\(c_1 \neq 0\)</span>, the summation does NOT converge without a convergence factor and thus <span class="math notranslate nohighlight">\( \sum_{\nu} f(\mathrm{i}\nu) e^{\mathrm{i}\nu 0^+} \neq  \sum_{\nu} f(\mathrm{i}\nu) e^{\mathrm{i}\nu 0^-}\)</span>.</p>
 </section>
 
     <script type="text/x-thebe-config">

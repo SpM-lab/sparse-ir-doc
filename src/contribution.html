@@ -166,7 +166,11 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Conventions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation and conventions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="greens_function.html">Green’s function and Lehmann representation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
@@ -303,7 +307,7 @@ document.write(`
 representation (sparse-IR) ecosystem and acknowledges the main contributors.</p>
 <section id="predecessor-irbasis">
 <h2>Predecessor: irbasis<a class="headerlink" href="#predecessor-irbasis" title="Link to this heading">#</a></h2>
-<p>Before sparse-ir and SparseIR.jl, the <strong>irbasis</strong> library <span id="id1">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id22" title="Naoya Chikano, Kazuyoshi Yoshimi, Junya Otsuki, and Hiroshi Shinaoka. irbasis: Open-source database and software for intermediate-representation basis functions of imaginary-time Green’s function. Computer Physics Communications, 240:181–188, 2018. URL: https://www.sciencedirect.com/science/article/pii/S001046551930058X?via\%3Dihub, arXiv:1807.05237, doi:10.1016/j.cpc.2019.02.006.">Chikano <em>et al.</em>, 2018</a>]</span>
+<p>Before sparse-ir and SparseIR.jl, the <strong>irbasis</strong> library <span id="id1">[<a class="reference internal" href="additional_material.html#id21" title="Naoya Chikano, Kazuyoshi Yoshimi, Junya Otsuki, and Hiroshi Shinaoka. irbasis: Open-source database and software for intermediate-representation basis functions of imaginary-time Green’s function. Computer Physics Communications, 240:181–188, 2019. URL: https://www.sciencedirect.com/science/article/pii/S001046551930058X?via\%3Dihub, arXiv:1807.05237, doi:10.1016/j.cpc.2019.02.006.">Chikano <em>et al.</em>, 2019</a>]</span>
 provided precomputed, tabulated intermediate-representation (IR) basis
 functions. In irbasis, the IR basis functions were obtained by solving the
 integral equation for each choice of the cutoff parameter <span class="math notranslate nohighlight">\(\Lambda = \beta \omega_\mathrm{max}\)</span>
@@ -334,18 +338,22 @@ authors above and many physicists listed in the contributor list below.</p>
 universal low-level implementation</strong> that can be used from multiple languages
 via a common C-compatible API.</p>
 <p>An important application that motivated this direction is the work of
-<span id="id2">[<a class="reference internal" href="../.venv/lib64/python3.13/site-packages/jupyter_book/book_template/markdown.html#id54" title="Hitoshi Mori, Takuya Nomoto, Ryotaro Arita, and Elena R. Margine. Efficient anisotropic migdal-eliashberg calculations with an intermediate representation basis and wannier interpolation. Phys. Rev. B, 110:064505, Aug 2024. URL: https://link.aps.org/doi/10.1103/PhysRevB.110.064505, doi:10.1103/PhysRevB.110.064505.">Mori <em>et al.</em>, 2024</a>]</span>, where IR-based quantities were computed with
+<span id="id2">[<a class="reference internal" href="additional_material.html#id53" title="Hitoshi Mori, Takuya Nomoto, Ryotaro Arita, and Elena R. Margine. Efficient anisotropic migdal-eliashberg calculations with an intermediate representation basis and wannier interpolation. Phys. Rev. B, 110:064505, Aug 2024. URL: https://link.aps.org/doi/10.1103/PhysRevB.110.064505, doi:10.1103/PhysRevB.110.064505.">Mori <em>et al.</em>, 2024</a>]</span>, where IR-based quantities were computed with
 <strong>sparse-ir (Python)</strong> and the resulting data were saved to files and
 consumed by the EPW code (<a class="reference external" href="https://epw-code.org">EPW website</a>).
 This workflow made it clear that having a low-level library which can
 compute IR basis functions <strong>on the fly in any language</strong> via a stable C API
 would be highly beneficial.</p>
-<p>As a first step, a C++ prototype library <a class="reference external" href="https://github.com/SpM-lab/libsparseir"><code class="docutils literal notranslate"><span class="pre">libsparseir</span></code></a> was
-developed by <strong>Satoshi Terasaki</strong> and <strong>Hiroshi Shinaoka</strong>. This attempt
-explored how to expose IR functionality through a C API, but was not released
-as a long-term, production-quality solution.</p>
+<p>As a first step, a C++ prototype was developed by <strong>Satoshi Terasaki</strong> and
+<strong>Hiroshi Shinaoka</strong> in the repository <a class="reference external" href="https://github.com/SpM-lab/libsparseir">SpM-lab/libsparseir</a>
+(now archived). This attempt explored how to expose IR functionality through a
+C API, but was not released as a long-term, production-quality solution.</p>
 <p>The project then migrated to Rust as <a class="reference external" href="https://github.com/SpM-lab/sparse-ir-rs"><code class="docutils literal notranslate"><span class="pre">sparse-ir-rs</span></code></a>, again led
-by <strong>Satoshi Terasaki</strong> and <strong>Hiroshi Shinaoka</strong>. The new versions</p>
+by <strong>Satoshi Terasaki</strong> and <strong>Hiroshi Shinaoka</strong>. The C API of sparse-ir-rs
+(the crate <code class="docutils literal notranslate"><span class="pre">sparse-ir-capi</span></code>) is built as the C library <strong>libsparseir</strong>; the
+Julia and Python wrappers load it through <code class="docutils literal notranslate"><span class="pre">libsparseir_jll</span></code> and
+<code class="docutils literal notranslate"><span class="pre">pylibsparseir</span></code>, respectively. The name libsparseir thus refers to this C API
+built from sparse-ir-rs, not to the C++ prototype. The new versions</p>
 <ul class="simple">
 <li><p><strong>SparseIR.jl 2.x</strong> (Julia)</p></li>
 <li><p><strong>sparse-ir 2.x</strong> (Python)</p></li>
