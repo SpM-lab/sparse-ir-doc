@@ -47,13 +47,17 @@ This workflow made it clear that having a low-level library which can
 compute IR basis functions **on the fly in any language** via a stable C API
 would be highly beneficial.
 
-As a first step, a C++ prototype library [`libsparseir`][libsparseir] was
-developed by **Satoshi Terasaki** and **Hiroshi Shinaoka**. This attempt
-explored how to expose IR functionality through a C API, but was not released
-as a long-term, production-quality solution.
+As a first step, a C++ prototype was developed by **Satoshi Terasaki** and
+**Hiroshi Shinaoka** in the repository [SpM-lab/libsparseir][libsparseir-cpp]
+(now archived). This attempt explored how to expose IR functionality through a
+C API, but was not released as a long-term, production-quality solution.
 
 The project then migrated to Rust as [`sparse-ir-rs`][sparse-ir-rs], again led
-by **Satoshi Terasaki** and **Hiroshi Shinaoka**. The new versions
+by **Satoshi Terasaki** and **Hiroshi Shinaoka**. The C API of sparse-ir-rs
+(the crate `sparse-ir-capi`) is built as the C library **libsparseir**; the
+Julia and Python wrappers load it through `libsparseir_jll` and
+`pylibsparseir`, respectively. The name libsparseir thus refers to this C API
+built from sparse-ir-rs, not to the C++ prototype. The new versions
 
 - **SparseIR.jl 2.x** (Julia)
 - **sparse-ir 2.x** (Python)
@@ -72,7 +76,7 @@ The Fortran bindings to the Rust implementation were developed by
 **Hitoshi Mori** in collaboration with **Satoshi Terasaki** and
 **Hiroshi Shinaoka**.
 
-[libsparseir]: https://github.com/SpM-lab/libsparseir
+[libsparseir-cpp]: https://github.com/SpM-lab/libsparseir
 [sparse-ir-rs]: https://github.com/SpM-lab/sparse-ir-rs
 [xprec-rs]: https://github.com/tuwien-cms/xprec-rs
 

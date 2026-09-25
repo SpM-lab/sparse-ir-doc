@@ -50,8 +50,16 @@ sphinx:
   config:
     bibtex_reference_style: author_year
     language: en
+    # This list replaces Jupyter Book's default exclude patterns, so the
+    # defaults (_build, Thumbs.db, .DS_Store, **.ipynb_checkpoints) are
+    # repeated here. .venv is the environment created by `uv sync`.
     exclude_patterns:
       - src_disabled
+      - _build
+      - .venv
+      - Thumbs.db
+      - .DS_Store
+      - "**.ipynb_checkpoints"
     html_theme_options:
       use_download_button: false
 
