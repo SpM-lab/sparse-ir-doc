@@ -1,6 +1,9 @@
 format: jb-book
 root: index
 parts:
+- caption: Conventions
+  chapters:
+  - file: src/notation
 - caption: Basic theory
   chapters:
   - file: src/greens_function
