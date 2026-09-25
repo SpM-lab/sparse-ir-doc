@@ -159,9 +159,12 @@ For the regularized bosonic kernel, $S_l = \sqrt{\beta\omega_\mathrm{max}^3/2}\,
 
 **Imaginary time.** The default points are the roots of $U_L$, the first function beyond the basis.
 - The libraries return them in $(0, \beta)$ (`use_positive_taus=True`, the default). Reversing the array then maps $\tau$ to $\beta - \tau$.
-- Unfolded, they lie in $(-\beta/2, \beta/2]$, symmetric about 0.
+- Unfolded, they lie in $(-\beta/2, \beta/2]$: pairs $\pm\tau$, plus $\beta/2$ when their number is odd.
+  Reversing the unfolded points therefore maps $\tau$ to $-\tau$ only for an even number.
 
 **Matsubara frequencies.** The default points are the sign changes of the first discarded transform $\hat U_l$, with $l \ge L$ chosen to fit the parity. Bosonic sets always include $n = 0$.
+
+**Custom points** may be given in any order; evaluation and fitting follow the order given.
 
 **`positive_only`.** It asserts $G(-\mathrm{i}\nu) = G(\mathrm{i}\nu)^*$ (real IR coefficients) and samples only $n \ge 0$. Bosonic sets include $n = 0$.
 
