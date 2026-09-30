@@ -87,7 +87,14 @@ For two-particle (three- and four-point) functions there is no single SVD, and e
 - **Bethe–Salpeter equation in the IR** {cite:p}`Wallerberger2021BSE`, with exponential convergence in the basis size.
 - **Relation to partial spectral functions** {cite:p}`Dirnboeck2024`.
 - **DLR for three-point functions** {cite:p}`Kiese2025`: products of simple poles on universal nodes.
-- A related approach that does not factorize a kernel: quantics tensor trains compress correlation functions through their multiscale structure {cite:p}`QTT2023`.
+
+### 2023: quantics tensor trains
+
+{cite:t}`QTT2023` proposed a multiscale space-time ansatz based on quantics tensor trains (QTT).
+A time, frequency or momentum variable is written in binary digits, each digit corresponding to one length scale, and the resulting tensor is decomposed into a tensor train, which assumes a separation of length scales.
+The ansatz does not rely on the analytic-continuation kernel, so it applies to more general space-time dependence, such as momentum, real-time (nonequilibrium) and two-particle functions.
+It also contains the sum-of-exponentials form used by the DLR: a single exponential $e^{-\tau\omega}$ factorizes over the binary digits of $\tau$ and is a tensor train of bond dimension 1, so a sum of $N_\mathrm{P}$ exponentials has bond dimension at most $N_\mathrm{P}$.
+For one-particle functions in imaginary time QTT is less compact than the IR and DLR, but it generalizes naturally to higher dimensions.
 
 ## Why the size grows as $\log\Lambda$
 

@@ -7,6 +7,7 @@ This document describes the sparse-ir ecosystem including the following librarie
 
 We describe the basis knowledge of the intermediate representation.
 The notation and conventions shared by this document and the libraries, with the names of the corresponding objects in each library, are summarized in [Notation and conventions](src/notation.md).
+How the IR basis, the discrete Lehmann representation (DLR) and MiniPole are related, where each came from and what each is convenient for is explained in [IR, DLR and MiniPole: history and comparison](src/history_comparison.md).
 
 For the Python and Julia libraries, we provide comprehensive tutorials in the [sparse-ir-tutorial](https://spm-lab.github.io/sparse-ir-tutorial-v2) tutorial website.
 For detailed usage of the libraries and their API, please refer to the documentation and test codes of each library.
