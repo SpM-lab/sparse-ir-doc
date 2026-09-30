@@ -1,0 +1,716 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>IR, DLR and MiniPole: history and comparison &#8212; sparse-ir</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'src/history_comparison';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Summation over Matsubara axis" href="matsubarasum.html" />
+    <link rel="prev" title="Discrete Lehmann representation" href="DLR.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">sparse-ir</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Conventions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation and conventions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="greens_function.html">Green’s function and Lehmann representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">IR, DLR and MiniPole: history and comparison</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="matsubarasum.html">Summation over Matsubara axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tau_periodicity.html">Periodicity in imaginary time (Green’s functions and basis functions)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Development history and contributions</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>IR, DLR and MiniPole: history and comparison</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-common-idea">The common idea</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#history">History</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-intermediate-representation">2017: the intermediate representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ir-matures">2018–2020: IR matures</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-poles-from-the-ir">2020: sparse poles from the IR</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-discrete-lehmann-representation">2021/22: the discrete Lehmann representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-pole-representation">2023–2025: minimal pole representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beyond-one-particle-functions">Beyond one-particle functions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-size-grows-as-log-lambda">Why the size grows as <span class="math notranslate nohighlight">\(\log\Lambda\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sizes">Sizes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-and-when-to-use-which">Properties and when to use which</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-approach-minimax-grids">Related approach: minimax grids</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ir-dlr-and-minipole-history-and-comparison">
+<h1>IR, DLR and MiniPole: history and comparison<a class="headerlink" href="#ir-dlr-and-minipole-history-and-comparison" title="Link to this heading">#</a></h1>
+<p>This page explains how the intermediate representation (IR), the discrete Lehmann representation (DLR) and the minimal pole representation (MiniPole) are related, where each came from, and what each is convenient for.
+The singular-value figure and the size table are computed when this page is built, using the released <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> Python package.</p>
+<section id="the-common-idea">
+<h2>The common idea<a class="headerlink" href="#the-common-idea" title="Link to this heading">#</a></h2>
+<p>For fermions, the imaginary-time Green’s function is related to the spectral function by</p>
+<div class="math notranslate nohighlight">
+\[
+G(\tau) = -\int_{-\omega_\mathrm{max}}^{\omega_\mathrm{max}} d\omega\, K(\tau, \omega)\, \rho(\omega),
+\qquad
+K(\tau, \omega) = \frac{e^{-\tau\omega}}{1 + e^{-\beta\omega}},
+\]</div>
+<p>and there is a similar relation for bosons (see <a class="reference internal" href="greens_function.html"><span class="std std-doc">Green’s functions</span></a>).
+The singular values of <span class="math notranslate nohighlight">\(K\)</span> decay at least exponentially, so <span class="math notranslate nohighlight">\(K\)</span> is numerically low rank.
+Consequently <span class="math notranslate nohighlight">\(G(\tau)\)</span> holds far fewer independent degrees of freedom than <span class="math notranslate nohighlight">\(\rho(\omega)\)</span>: most components of <span class="math notranslate nohighlight">\(\rho\)</span> barely affect <span class="math notranslate nohighlight">\(G\)</span>.</p>
+<p>IR and DLR build data-independent spaces directly from the kernel.
+MiniPole is different: it fits one particular Matsubara function and does not factorize <span class="math notranslate nohighlight">\(K\)</span>.
+For MiniPole the low rank of the kernel is motivation (few poles suffice), not the construction itself.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>how it is obtained</p></th>
+<th class="head"><p>depends on the data?</p></th>
+<th class="head"><p>output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>IR (2017)</p></td>
+<td><p>singular value expansion of <span class="math notranslate nohighlight">\(K\)</span></p></td>
+<td><p>no</p></td>
+<td><p>orthonormal functions <span class="math notranslate nohighlight">\(U_l(\tau)\)</span>, <span class="math notranslate nohighlight">\(\hat U_l(i\nu)\)</span>, <span class="math notranslate nohighlight">\(V_l(\omega)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>DLR (2021/22)</p></td>
+<td><p>interpolative decomposition of <span class="math notranslate nohighlight">\(K\)</span></p></td>
+<td><p>no</p></td>
+<td><p>real poles <span class="math notranslate nohighlight">\(\omega_k\)</span> and interpolation nodes</p></td>
+</tr>
+<tr class="row-even"><td><p>MiniPole (2023/24)</p></td>
+<td><p>Prony/ESPRIT fit of a given <span class="math notranslate nohighlight">\(G\)</span></p></td>
+<td><p>yes</p></td>
+<td><p>a few complex poles</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="history">
+<h2>History<a class="headerlink" href="#history" title="Link to this heading">#</a></h2>
+<section id="the-intermediate-representation">
+<h3>2017: the intermediate representation<a class="headerlink" href="#the-intermediate-representation" title="Link to this heading">#</a></h3>
+<p><span id="id1">Shinaoka <em>et al.</em> [<a class="reference internal" href="additional_material.html#id24" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">2017</a>]</span> defined the IR as the singular value expansion
+<span class="math notranslate nohighlight">\(K(x, y) = \sum_l s_l u_l(x) v_l(y)\)</span> of the kernel and showed that the singular values <span class="math notranslate nohighlight">\(s_l\)</span> decay at least exponentially.
+The singular value decomposition of <span class="math notranslate nohighlight">\(K\)</span> had long been used in analytic continuation.
+What was new was to use the left singular functions as a compact basis for the imaginary-time dependence of Green’s functions, built from the kernel itself rather than chosen generically.
+Legendre polynomials <span id="id2">[<a class="reference internal" href="additional_material.html#id27" title="Lewin Boehnke, Hartmut Hafermann, Michel Ferrero, Frank Lechermann, and Olivier Parcollet. Orthogonal polynomial representation of imaginary-time Green’s functions. Physical Review B, 84(7):075145, 2011-08. doi:10.1103/physrevb.84.075145.">Boehnke <em>et al.</em>, 2011-08</a>]</span> are recovered in the limit <span class="math notranslate nohighlight">\(\Lambda = \beta\omega_\mathrm{max} \to 0\)</span>, and IR coefficients decay faster than Legendre coefficients.
+In the same year <span id="id3">Otsuki <em>et al.</em> [<a class="reference internal" href="additional_material.html#id23" title="Junya Otsuki, Masayuki Ohzeki, Hiroshi Shinaoka, and Kazuyoshi Yoshimi. Sparse modeling approach to analytical continuation of imaginary-time quantum Monte Carlo data. Physical Review E, 95(6):061302(R), 06 2017. URL: https://journals.aps.org/pre/pdf/10.1103/PhysRevE.95.061302, doi:10.1103/physreve.95.061302.">2017</a>]</span> combined the SVD with <span class="math notranslate nohighlight">\(L_1\)</span> regularization for analytic continuation, the origin of the SpM method.</p>
+</section>
+<section id="ir-matures">
+<h3>2018–2020: IR matures<a class="headerlink" href="#ir-matures" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><span id="id4">Chikano <em>et al.</em> [<a class="reference internal" href="additional_material.html#id19" title="Naoya Chikano, Junya Otsuki, and Hiroshi Shinaoka. Performance analysis of a physically constructed orthogonal representation of imaginary-time Green's function. Physical Review B, 98(3):035104, 07 2018. doi:10.1103/physrevb.98.035104.">2018</a>]</span> found empirically that the basis size grows as <span class="math notranslate nohighlight">\(O(\log \beta)\)</span> for fermions.</p></li>
+<li><p><span id="id5">Chikano <em>et al.</em> [<a class="reference internal" href="additional_material.html#id21" title="Naoya Chikano, Kazuyoshi Yoshimi, Junya Otsuki, and Hiroshi Shinaoka. irbasis: Open-source database and software for intermediate-representation basis functions of imaginary-time Green’s function. Computer Physics Communications, 240:181–188, 2019. URL: https://www.sciencedirect.com/science/article/pii/S001046551930058X?via\%3Dihub, arXiv:1807.05237, doi:10.1016/j.cpc.2019.02.006.">2019</a>]</span> released the <code class="docutils literal notranslate"><span class="pre">irbasis</span></code> library.</p></li>
+<li><p><span id="id6">Li <em>et al.</em> [<a class="reference internal" href="additional_material.html#id3" title="Jia Li, Markus Wallerberger, Naoya Chikano, Chia-Nan Yeh, Emanuel Gull, and Hiroshi Shinaoka. Sparse sampling approach to efficient ab initio calculations at finite temperature. Physical Review B, 101(3):035144, 01 2020. doi:10.1103/physrevb.101.035144.">2020</a>]</span> introduced <strong>sparse sampling</strong>: imaginary-time and Matsubara sampling points derived from the roots of the highest-order basis function.</p></li>
+<li><p><span id="id7">Otsuki <em>et al.</em> [<a class="reference internal" href="additional_material.html#id5" title="Junya Otsuki, Masayuki Ohzeki, Hiroshi Shinaoka, and Kazuyoshi Yoshimi. Sparse Modeling in Quantum Many-Body Problems. Journal of the Physical Society of Japan, 89(1):012001, 01 2020. doi:10.7566/jpsj.89.012001.">2020</a>]</span> reviewed sparse modeling in quantum many-body problems.</p></li>
+</ul>
+</section>
+<section id="sparse-poles-from-the-ir">
+<h3>2020: sparse poles from the IR<a class="headerlink" href="#sparse-poles-from-the-ir" title="Link to this heading">#</a></h3>
+<p><span id="id8">Shinaoka and Nagai [<a class="reference internal" href="additional_material.html#id2" title="Hiroshi Shinaoka and Yuki Nagai. Sparse modeling of large-scale quantum impurity models with low symmetries. Physical Review B, 103(4):045120, 2021. doi:10.1103/physrevb.103.045120.">2021</a>]</span> (arXiv July 2020) fitted matrix-valued hybridization functions with a small number of bath levels.
+The pole candidates lie on the real axis, on a grid refined between the roots of the highest real-frequency IR function <span class="math notranslate nohighlight">\(V_{L-1}(\omega)\)</span>, and the cost function is written in IR-coefficient space with a group-LASSO term.
+This is a DLR-like pole set derived from the IR.</p>
+</section>
+<section id="the-discrete-lehmann-representation">
+<h3>2021/22: the discrete Lehmann representation<a class="headerlink" href="#the-discrete-lehmann-representation" title="Link to this heading">#</a></h3>
+<p><span id="id9">Kaye <em>et al.</em> [<a class="reference internal" href="additional_material.html#id51" title="Jason Kaye, Kun Chen, and Olivier Parcollet. Discrete lehmann representation of imaginary time green's functions. Phys. Rev. B, 105:235115, Jun 2022. URL: https://link.aps.org/doi/10.1103/PhysRevB.105.235115, doi:10.1103/PhysRevB.105.235115.">2022</a>]</span> took the same low-rank observation, which they explicitly relate to the IR, and replaced the SVD with an interpolative decomposition (ID).
+Poles <span class="math notranslate nohighlight">\(\omega_k\)</span> are selected from the columns of a discretized kernel, and imaginary-time and Matsubara nodes from the rows restricted to those poles.
+The result is an explicit, non-orthogonal expansion
+<span class="math notranslate nohighlight">\(G(i\nu) \approx \sum_k c_k / (i\nu - \omega_k)\)</span> with real poles.
+The DLR rank is <span class="math notranslate nohighlight">\(O(\log\Lambda \log 1/\varepsilon)\)</span>, inferred numerically in that paper.
+The library <code class="docutils literal notranslate"><span class="pre">libdlr</span></code> followed <span id="id10">[<a class="reference internal" href="additional_material.html#id54" title="Jason Kaye, Kun Chen, and Hugo U. R. Strand. Libdlr: efficient imaginary time calculations using the discrete lehmann representation. Comput. Phys. Commun., 280:108458, 2022. doi:10.1016/j.cpc.2022.108458.">Kaye <em>et al.</em>, 2022</a>]</span>.
+<code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> provides a DLR constructed from the IR basis instead of by ID; see <a class="reference internal" href="DLR.html"><span class="std std-doc">Discrete Lehmann representation</span></a> and <span id="id11">Wallerberger <em>et al.</em> [<a class="reference internal" href="additional_material.html#id55" title="Markus Wallerberger, Samuel Badr, Shintaro Hoshino, Fumiya Kakizawa, Takashi Koretsune, Yuki Nagai, Kosuke Nogaki, Takuya Nomoto, Hitoshi Mori, Junya Otsuki, Soshun Ozaki, Rihito Sakurai, Constanze Vogel, Niklas Witt, Kazuyoshi Yoshimi, and Hiroshi Shinaoka. sparse-ir: optimal compression and sparse sampling of many-body propagators. SoftwareX, 21:101266, 2023. doi:10.1016/j.softx.2022.101266.">2023</a>]</span>.</p>
+</section>
+<section id="minimal-pole-representation">
+<h3>2023–2025: minimal pole representation<a class="headerlink" href="#minimal-pole-representation" title="Link to this heading">#</a></h3>
+<p><span id="id12">Zhang and Gull [<a class="reference internal" href="additional_material.html#id56" title="Lei Zhang and Emanuel Gull. Minimal pole representation and controlled analytic continuation of matsubara response functions. Phys. Rev. B, 110:035154, 2024. doi:10.1103/PhysRevB.110.035154.">2024</a>]</span> introduced the minimal pole representation: the Matsubara data are continued by a Prony approximation and conformally mapped to the unit circle, and a second Prony step on contour moments gives a small number of complex poles.
+<span id="id13">Zhang <em>et al.</em> [<a class="reference internal" href="additional_material.html#id57" title="Lei Zhang, Yang Yu, and Emanuel Gull. Minimal pole representation and analytic continuation of matrix-valued correlation functions. Phys. Rev. B, 110:235131, 2024. doi:10.1103/PhysRevB.110.235131.">2024</a>]</span> extended this to matrix-valued functions, replaced Prony by ESPRIT, and added a fast variant that takes a DLR as input.
+<span id="id14">Zhang <em>et al.</em> [<a class="reference internal" href="additional_material.html#id58" title="Lei Zhang, André Erpenbeck, Yang Yu, and Emanuel Gull. Minimal pole representation for spectral functions. J. Chem. Phys., 162:214111, 2025. doi:10.1063/5.0273763.">2025</a>]</span> applied the idea to real-frequency spectral functions.</p>
+</section>
+<section id="beyond-one-particle-functions">
+<h3>Beyond one-particle functions<a class="headerlink" href="#beyond-one-particle-functions" title="Link to this heading">#</a></h3>
+<p>For two-particle (three- and four-point) functions there is no single SVD, and each approach builds the representation from products of one-particle kernels.</p>
+<ul class="simple">
+<li><p><strong>Overcomplete IR</strong> <span id="id15">[<a class="reference internal" href="additional_material.html#id20" title="Hiroshi Shinaoka, Junya Otsuki, Kristjan Haule, Markus Wallerberger, Emanuel Gull, Kazuyoshi Yoshimi, and Masayuki Ohzeki. Overcomplete compact representation of two-particle Green's functions. Physical Review B, 97(20):205111, 05 2018. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.97.205111, doi:10.1103/physrevb.97.205111.">Shinaoka <em>et al.</em>, 2018</a>]</span>: a sum of products of one-particle IR bases, one term per pole structure.</p></li>
+<li><p><strong>Sparse sampling and tensor networks</strong> <span id="id16">[<a class="reference internal" href="additional_material.html#id4" title="Hiroshi Shinaoka, Dominique Geffroy, Markus Wallerberger, Junya Otsuki, Kazuyoshi Yoshimi, Emanuel Gull, and Jan Kuneš. Sparse sampling and tensor network representation of two-particle Green's functions. SciPost Physics, 8(1):012 – 23, 2020. URL: https://scipost.org/SciPostPhys.8.1.012/pdf, doi:10.21468/scipostphys.8.1.012.">Shinaoka <em>et al.</em>, 2020</a>]</span>: sparse Matsubara sampling for two-particle Green’s functions and a tensor-network compression of the IR coefficients.</p></li>
+<li><p><strong>Bethe–Salpeter equation in the IR</strong> <span id="id17">[<a class="reference internal" href="additional_material.html#id59" title="Markus Wallerberger, Hiroshi Shinaoka, and Anna Kauch. Solving the Bethe-Salpeter equation with exponential convergence. Phys. Rev. Research, 3:033168, 2021. doi:10.1103/PhysRevResearch.3.033168.">Wallerberger <em>et al.</em>, 2021</a>]</span>, with exponential convergence in the basis size.</p></li>
+<li><p><strong>Relation to partial spectral functions</strong> <span id="id18">[<a class="reference internal" href="additional_material.html#id60" title="Selina Dirnböck, Seung-Sup B. Lee, Fabian B. Kugler, Sebastian Huber, Jan von Delft, Karsten Held, and Markus Wallerberger. Overcomplete intermediate representation of two-particle Green's functions and its relation to partial spectral functions. Phys. Rev. Research, 6:043228, 2024. doi:10.1103/PhysRevResearch.6.043228.">Dirnböck <em>et al.</em>, 2024</a>]</span>.</p></li>
+<li><p><strong>DLR for three-point functions</strong> <span id="id19">[<a class="reference internal" href="additional_material.html#id61" title="Dominik Kiese, Hugo U. R. Strand, Kun Chen, Nils Wentzell, Olivier Parcollet, and Jason Kaye. Discrete Lehmann representation of three-point functions. Phys. Rev. B, 111:035135, 2025. doi:10.1103/PhysRevB.111.035135.">Kiese <em>et al.</em>, 2025</a>]</span>: products of simple poles on universal nodes.</p></li>
+<li><p>A related approach that does not factorize a kernel: quantics tensor trains compress correlation functions through their multiscale structure <span id="id20">[<a class="reference internal" href="additional_material.html#id62" title="Hiroshi Shinaoka, Markus Wallerberger, Yuta Murakami, Kosuke Nogaki, Rihito Sakurai, Philipp Werner, and Anna Kauch. Multiscale space-time ansatz for correlation functions of quantum systems based on quantics tensor trains. Phys. Rev. X, 13:021015, 2023. doi:10.1103/PhysRevX.13.021015.">Shinaoka <em>et al.</em>, 2023</a>]</span>.</p></li>
+</ul>
+</section>
+</section>
+<section id="why-the-size-grows-as-log-lambda">
+<h2>Why the size grows as <span class="math notranslate nohighlight">\(\log\Lambda\)</span><a class="headerlink" href="#why-the-size-grows-as-log-lambda" title="Link to this heading">#</a></h2>
+<p>Until recently the <span class="math notranslate nohighlight">\(O(\log\Lambda)\)</span> size of the IR was an empirical observation.
+<span id="id21">Misawa [<a class="reference internal" href="additional_material.html#id63" title="Takahiro Misawa. Analytic origin of Green-function compression in the intermediate representation. 2026. arXiv:2605.24814, doi:10.48550/arXiv.2605.24814.">2026</a>]</span> gave an analytic explanation.
+At large <span class="math notranslate nohighlight">\(\Lambda\)</span> a logarithmic change of variables maps the problem onto a convolution on an interval of length about <span class="math notranslate nohighlight">\(\log\Lambda\)</span>, which gives the asymptotic form</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{s_l}{s_0} \approx \left[\cosh\!\left(\frac{\pi^2 l}{2\log\Lambda}\right)\right]^{-1/2},
+\]</div>
+<p>that is, exponential decay at the rate <span class="math notranslate nohighlight">\(\pi^2/(4\log\Lambda)\)</span>.
+Hence the number of singular values above a relative cutoff <span class="math notranslate nohighlight">\(\varepsilon\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+N_\mathrm{eff}(\Lambda; \varepsilon) \approx \frac{2}{\pi^2}\, \mathrm{arcosh}(\varepsilon^{-2})\, \log\Lambda
+= O(\log\Lambda \cdot \log 1/\varepsilon).
+\]</div>
+<p>The figure compares this asymptotic form with singular values computed by <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code>.
+It describes the decay well for small <span class="math notranslate nohighlight">\(l\)</span>; deep in the tail the computed values fall faster than the asymptotic form, which then overestimates them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sparse_ir</span>
+
+<span class="n">lambdas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e2</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">,</span> <span class="mf">1e4</span><span class="p">,</span> <span class="mf">1e5</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">lam</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lambdas</span><span class="p">):</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">lam</span><span class="p">,</span> <span class="n">wmax</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">/</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">rf</span><span class="s1">&#39;$\Lambda=10^</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">lam</span><span class="p">))</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">)</span>
+    <span class="n">lc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">lc</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lc</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">lam</span><span class="p">)))</span><span class="o">**-</span><span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$l$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$s_l/s_0$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1e-16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;points: sparse-ir</span><span class="se">\n</span><span class="s1">lines: asymptotic form&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a78b37857ef9668c10c9089c7440a88f9b0ec969e4b64c9cf29b709b2ebeaa1f.png" src="../_images/a78b37857ef9668c10c9089c7440a88f9b0ec969e4b64c9cf29b709b2ebeaa1f.png" />
+</div>
+</div>
+<p>Two related lines of work look at the same kernel from other directions.</p>
+<ul class="simple">
+<li><p><span id="id22">Ohzeki [<a class="reference internal" href="additional_material.html#id64" title="Masayuki Ohzeki. Analytical singular-value structure of analytic-continuation kernels from Slepian information theory. 2026. arXiv:2605.26586, doi:10.48550/arXiv.2605.26586.">2026</a>]</span> factors the kernel into a pure Laplace factor and a statistics-dependent weight, and obtains a generalized singular value decomposition in a weighted metric, with prolate spheroidal wave functions and sampling nodes from a colleague matrix.
+It is a complementary Slepian-based generalized singular-value and sampling construction; its channel capacity <span class="math notranslate nohighlight">\(\Lambda/\pi\)</span> refers to that weighted channel, not to the ordinary IR rank.
+The logarithmic growth of the standard IR rank is the subject of <span id="id23">Misawa [<a class="reference internal" href="additional_material.html#id63" title="Takahiro Misawa. Analytic origin of Green-function compression in the intermediate representation. 2026. arXiv:2605.24814, doi:10.48550/arXiv.2605.24814.">2026</a>]</span>.</p></li>
+<li><p>In lattice QCD the Laplace kernel <span class="math notranslate nohighlight">\(e^{-\omega t}\)</span> on a half-line is diagonalized by the Mellin transform, with continuous singular values <span class="math notranslate nohighlight">\(\sqrt{\pi/\cosh(\pi s)}\)</span> and modes that are oscillatory in <span class="math notranslate nohighlight">\(\log\omega\)</span> <span id="id24">[<a class="reference internal" href="additional_material.html#id67" title="Mattia Bruno, Leonardo Giusti, and Matteo Saccardi. Spectral densities from Euclidean lattice correlators via the Mellin transform. Phys. Rev. D, 111:094515, 2025. doi:10.1103/PhysRevD.111.094515.">Bruno <em>et al.</em>, 2025</a>, <a class="reference internal" href="additional_material.html#id65" title="Shoji Hashimoto. Smeared spectral functions from lattice QCD: opportunities and challenges. 2026. arXiv:2609.02239, doi:10.48550/arXiv.2609.02239.">Hashimoto, 2026</a>, <a class="reference internal" href="additional_material.html#id66" title="Ryutaro Tsuji and Shoji Hashimoto. Spectral reconstruction from Euclidean lattice correlators through singular value decomposition. 2026. arXiv:2605.15674, doi:10.48550/arXiv.2605.15674.">Tsuji and Hashimoto, 2026</a>]</span>.
+The resemblance to the IR asymptotics above is an analogy between different kernels and measures, not a quantitative identification.</p></li>
+</ul>
+</section>
+<section id="sizes">
+<h2>Sizes<a class="headerlink" href="#sizes" title="Link to this heading">#</a></h2>
+<p>The table gives the IR basis size (fermions, <span class="math notranslate nohighlight">\(\omega_\mathrm{max} = 1\)</span>, <span class="math notranslate nohighlight">\(\beta = \Lambda\)</span>) at several relative cutoffs <span class="math notranslate nohighlight">\(\varepsilon\)</span>, computed with <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epss</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-6</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-14</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Lambda  &#39;</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;eps=</span><span class="si">{</span><span class="n">e</span><span class="si">:</span><span class="s1">.0e</span><span class="si">}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">epss</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">lam</span> <span class="ow">in</span> <span class="n">lambdas</span><span class="p">:</span>
+    <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">lam</span><span class="p">,</span> <span class="n">wmax</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">epss</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s1">6.0e</span><span class="si">}</span><span class="s1">  &#39;</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s1">12d</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sizes</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lambda     eps=1e-06   eps=1e-10   eps=1e-14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1e+02            21          30          38
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1e+03            34          52          68
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1e+04            48          74          98
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1e+05            61          95         129
+</pre></div>
+</div>
+</div>
+</div>
+<p>The size grows linearly in <span class="math notranslate nohighlight">\(\log\Lambda\)</span> at fixed <span class="math notranslate nohighlight">\(\varepsilon\)</span> and roughly linearly in <span class="math notranslate nohighlight">\(\log 1/\varepsilon\)</span> at fixed <span class="math notranslate nohighlight">\(\Lambda\)</span>.</p>
+<p>The DLR has the same <span class="math notranslate nohighlight">\(O(\log\Lambda\log 1/\varepsilon)\)</span> scaling with a comparable size.
+For example, <span id="id25">Kaye <em>et al.</em> [<a class="reference internal" href="additional_material.html#id51" title="Jason Kaye, Kun Chen, and Olivier Parcollet. Discrete lehmann representation of imaginary time green's functions. Phys. Rev. B, 105:235115, Jun 2022. URL: https://link.aps.org/doi/10.1103/PhysRevB.105.235115, doi:10.1103/PhysRevB.105.235115.">2022</a>]</span> (Fig. 8) report 91 IR functions and 96 DLR poles at <span class="math notranslate nohighlight">\(\Lambda = 10^4\)</span>, <span class="math notranslate nohighlight">\(\varepsilon = 10^{-14}\)</span>; this is one parameter point, not a universal ordering.
+The SVD is optimal for its own norm and truncation criterion, whereas the DLR trades some compactness for an explicit pole form.
+MiniPole is not a basis and cannot be compared in the same way: its number of poles depends on the function being fitted and on the tolerance, and it is typically much smaller for smooth spectra.</p>
+</section>
+<section id="properties-and-when-to-use-which">
+<h2>Properties and when to use which<a class="headerlink" href="#properties-and-when-to-use-which" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>IR</p></th>
+<th class="head"><p>DLR</p></th>
+<th class="head"><p>MiniPole</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>construction</p></td>
+<td><p>SVD of <span class="math notranslate nohighlight">\(K\)</span></p></td>
+<td><p>ID of <span class="math notranslate nohighlight">\(K\)</span></p></td>
+<td><p>ESPRIT fit of the given <span class="math notranslate nohighlight">\(G\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>data-dependent</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>size</p></td>
+<td><p>optimal for the SVD truncation criterion</p></td>
+<td><p>same scaling, comparable size</p></td>
+<td><p>small for smooth spectra; depends on the data and tolerance</p></td>
+</tr>
+<tr class="row-odd"><td><p>form</p></td>
+<td><p>numerical functions (piecewise polynomials)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\sum_k c_k/(i\nu-\omega_k)\)</span>, real <span class="math notranslate nohighlight">\(\omega_k\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\sum_j A_j/(z-\xi_j)\)</span>, complex <span class="math notranslate nohighlight">\(\xi_j\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>orthogonal</p></td>
+<td><p>yes</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>sampling</p></td>
+<td><p>sparse sampling points</p></td>
+<td><p>ID-selected nodes</p></td>
+<td><p>not a sampling scheme</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(G(\tau)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(U_l(\tau)\)</span> directly</p></td>
+<td><p>explicit exponentials</p></td>
+<td><p>needs an extra step (see below)</p></td>
+</tr>
+<tr class="row-odd"><td><p>convenient for</p></td>
+<td><p>compression, sparse sampling, linear algebra in coefficient space</p></td>
+<td><p>convolutions, Dyson equation, analytic operations with poles</p></td>
+<td><p>analytic continuation, compact pole models</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The error bounds of the DLR <span id="id26">[<a class="reference internal" href="additional_material.html#id51" title="Jason Kaye, Kun Chen, and Olivier Parcollet. Discrete lehmann representation of imaginary time green's functions. Phys. Rev. B, 105:235115, Jun 2022. URL: https://link.aps.org/doi/10.1103/PhysRevB.105.235115, doi:10.1103/PhysRevB.105.235115.">Kaye <em>et al.</em>, 2022</a>]</span> concern the approximated function; the DLR coefficients themselves can be ill-conditioned or non-unique.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>MiniPole and <span class="math notranslate nohighlight">\(G(\tau)\)</span>.</strong>
+The MiniPole pole sum represents the function in the upper half plane.
+On the negative Matsubara axis the function is given by the mirrored poles, since <span class="math notranslate nohighlight">\(G(-i\nu) = G(i\nu)^\dagger\)</span> (complex conjugate for scalar data).
+A pole sum with complex poles therefore cannot be inserted unchanged into the imaginary-time kernel for all Matsubara frequencies.
+Obtaining <span class="math notranslate nohighlight">\(G(\tau)\)</span> requires a two-branch reconstruction or a return through the IR or DLR: an extra step, not an impossibility.</p>
+</div>
+</section>
+<section id="related-approach-minimax-grids">
+<h2>Related approach: minimax grids<a class="headerlink" href="#related-approach-minimax-grids" title="Link to this heading">#</a></h2>
+<p><span id="id27">Kaltak and Kresse [<a class="reference internal" href="additional_material.html#id6" title="Merzuk Kaltak and Georg Kresse. Minimax isometry method: A compressive sensing approach for Matsubara summation in many-body perturbation theory. Physical Review B, 101(20):205145, 2020. arXiv:1909.01740, doi:10.1103/physrevb.101.205145.">2020</a>]</span> construct optimized imaginary-time and imaginary-frequency quadrature grids for specific sums arising in RPA, MP2 and GW, rather than a general basis.
+The grids solve minimax problems, and the error decays like <span class="math notranslate nohighlight">\(e^{-\pi\sqrt{2N}}\)</span> in the number of points <span class="math notranslate nohighlight">\(N\)</span>.
+IR and DLR provide one data-independent space with sampling points for any <span class="math notranslate nohighlight">\(G\)</span> of the given statistics and <span class="math notranslate nohighlight">\(\Lambda\)</span>; minimax grids are tuned to a particular integral and can use fewer points for that task.
+We are not aware of a systematic head-to-head comparison.</p>
+<p>The cited works are listed in <a class="reference internal" href="additional_material.html"><span class="std std-doc">Additional material</span></a>.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./src"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="DLR.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Discrete Lehmann representation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="matsubarasum.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Summation over Matsubara axis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-common-idea">The common idea</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#history">History</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-intermediate-representation">2017: the intermediate representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ir-matures">2018–2020: IR matures</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-poles-from-the-ir">2020: sparse poles from the IR</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-discrete-lehmann-representation">2021/22: the discrete Lehmann representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-pole-representation">2023–2025: minimal pole representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beyond-one-particle-functions">Beyond one-particle functions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-size-grows-as-log-lambda">Why the size grows as <span class="math notranslate nohighlight">\(\log\Lambda\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sizes">Sizes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-and-when-to-use-which">Properties and when to use which</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-approach-minimax-grids">Related approach: minimax grids</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By sparse-ir developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
