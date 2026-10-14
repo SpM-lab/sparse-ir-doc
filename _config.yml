@@ -1,12 +1,12 @@
 #######################################################################################
 # Book settings
-title : sparse-ir
+title : sparse-ir ecosystem
 author: sparse-ir developers
 copyright: "2025"
 
 # Information about where the book exists on the web
 description: >-
-  Online document for sparse-ir
+  Theory, history, notation and library guide for the sparse-ir ecosystem
 
 #######################################################################################
 # Execution settings
@@ -62,6 +62,10 @@ sphinx:
       - "**.ipynb_checkpoints"
     html_theme_options:
       use_download_button: false
+    # Navigation banner shared by the sparse-ir documentation sites; the links
+    # are maintained in SpM-lab/SpM-lab.github.io.
+    html_js_files:
+      - ["https://spm-lab.github.io/assets/ecosystem-banner.js", {"defer": "defer"}]
 
 parse:
   myst_substitutions:
