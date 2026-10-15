@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to sparse-ir documentation &#8212; sparse-ir</title>
+    <title>The sparse-ir ecosystem &#8212; sparse-ir ecosystem</title>
   
   
   
@@ -60,9 +60,10 @@
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script defer="defer" src="https://spm-lab.github.io/assets/ecosystem-banner.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Notation and conventions" href="src/notation.html" />
+    <link rel="next" title="IR, DLR and MiniPole: history and comparison" href="src/history_comparison.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -152,7 +153,7 @@
   
   
   
-    <p class="title logo__title">sparse-ir</p>
+    <p class="title logo__title">sparse-ir ecosystem</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -168,9 +169,11 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Conventions</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="src/history_comparison.html">IR, DLR and MiniPole: history and comparison</a></li>
 <li class="toctree-l1"><a class="reference internal" href="src/notation.html">Notation and conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/libraries.html">Libraries</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
@@ -178,7 +181,6 @@
 <li class="toctree-l1"><a class="reference internal" href="src/IR_py.html">Intermediate representation (IR)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="src/sparse_sampling_py.html">Sparse sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="src/DLR.html">Discrete Lehmann representation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src/history_comparison.html">IR, DLR and MiniPole: history and comparison</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul class="nav bd-sidenav">
@@ -266,7 +268,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -277,11 +281,21 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Welcome to sparse-ir documentation</h1>
+    <h1>The sparse-ir ecosystem</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-go">Where to go</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-libraries-at-a-glance">The libraries at a glance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing">Citing</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -291,18 +305,75 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-sparse-ir-documentation">
-<h1>Welcome to sparse-ir documentation<a class="headerlink" href="#welcome-to-sparse-ir-documentation" title="Link to this heading">#</a></h1>
-<p>This document describes the sparse-ir ecosystem including the following libraries:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://github.com/SpM-lab/sparse-ir-rs">sparse-ir-rs</a>: Rust implementation (crate <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code>) with the C API (the C library libsparseir) and Fortran bindings</p></li>
-<li><p><a class="reference external" href="https://github.com/SpM-lab/sparse-ir">sparse-ir</a>: Python library</p></li>
-<li><p><a class="reference external" href="https://github.com/SpM-lab/SparseIR.jl">SparseIR.jl</a>: Julia library</p></li>
-</ul>
-<p>We describe the basis knowledge of the intermediate representation.
-The notation and conventions shared by this document and the libraries, with the names of the corresponding objects in each library, are summarized in <a class="reference internal" href="src/notation.html"><span class="std std-doc">Notation and conventions</span></a>.</p>
-<p>For the Python and Julia libraries, we provide comprehensive tutorials in the <a class="reference external" href="https://spm-lab.github.io/sparse-ir-tutorial-v2">sparse-ir-tutorial</a> tutorial website.
-For detailed usage of the libraries and their API, please refer to the documentation and test codes of each library.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="the-sparse-ir-ecosystem">
+<h1>The sparse-ir ecosystem<a class="headerlink" href="#the-sparse-ir-ecosystem" title="Link to this heading">#</a></h1>
+<p>sparse-ir is a family of libraries for compact representations of imaginary-time Green’s functions:
+the intermediate representation (IR), the discrete Lehmann representation (DLR), sparse sampling, and minimal pole representations (MiniPole).
+This site is the entry point for all of them: the theory, the history, the notation they share, and where to find each library’s documentation.</p>
+<p>The libraries are maintained by <a class="reference external" href="https://spm-lab.github.io/">SpM-lab</a>, which also develops tools for analytic continuation.</p>
+<section id="where-to-go">
+<h2>Where to go<a class="headerlink" href="#where-to-go" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>If you want to …</p></th>
+<th class="head"><p>Go to</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>know what IR, DLR and MiniPole are, where they came from, and which to use</p></td>
+<td><p><a class="reference internal" href="src/history_comparison.html"><span class="std std-doc">IR, DLR and MiniPole: history and comparison</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>check a symbol or a sign convention, or find the matching name in a library</p></td>
+<td><p><a class="reference internal" href="src/notation.html"><span class="std std-doc">Notation and conventions</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>learn the basics step by step</p></td>
+<td><p><a class="reference internal" href="src/greens_function.html"><span class="std std-doc">Basic theory</span></a>: Green’s functions, IR, sparse sampling, DLR</p></td>
+</tr>
+<tr class="row-odd"><td><p>pick a library and find its installation guide, API reference and examples</p></td>
+<td><p><a class="reference internal" href="src/libraries.html"><span class="std std-doc">Libraries</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>run worked examples (GW, DMFT, FLEX, TPSC, Eliashberg, analytic continuation)</p></td>
+<td><p><a class="reference external" href="https://spm-lab.github.io/sparse-ir-tutorial/">Python and Julia tutorial</a>, <a class="reference external" href="https://spm-lab.github.io/sparse-ir-rs/">Rust guide</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="the-libraries-at-a-glance">
+<h2>The libraries at a glance<a class="headerlink" href="#the-libraries-at-a-glance" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Language</p></th>
+<th class="head"><p>Library</p></th>
+<th class="head"><p>Documentation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Python</p></td>
+<td><p><a class="reference external" href="https://github.com/SpM-lab/sparse-ir">sparse-ir</a> (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sparse-ir</span></code>)</p></td>
+<td><p><a class="reference external" href="https://sparse-ir.readthedocs.io/">sparse-ir.readthedocs.io</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Julia</p></td>
+<td><p><a class="reference external" href="https://github.com/SpM-lab/SparseIR.jl">SparseIR.jl</a> (<code class="docutils literal notranslate"><span class="pre">]</span> <span class="pre">add</span> <span class="pre">SparseIR</span></code>)</p></td>
+<td><p><a class="reference external" href="https://spm-lab.github.io/SparseIR.jl/stable/">SparseIR.jl documentation</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Rust, C, Fortran</p></td>
+<td><p><a class="reference external" href="https://github.com/SpM-lab/sparse-ir-rs">sparse-ir-rs</a> (crates <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code>, <code class="docutils literal notranslate"><span class="pre">sparse-ir-capi</span></code>)</p></td>
+<td><p><a class="reference external" href="https://spm-lab.github.io/sparse-ir-rs/">Rust guide</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>sparse-ir-rs is the shared backend: the Python and Julia libraries call its C API (libsparseir), and it ships the Fortran bindings.
+New features land there first.</p>
+</section>
+<section id="citing">
+<h2>Citing<a class="headerlink" href="#citing" title="Link to this heading">#</a></h2>
+<p>If you use these libraries, please cite
+M. Wallerberger <em>et al.</em>, sparse-ir: Optimal compression and sparse sampling of many-body propagators,
+<a class="reference external" href="https://doi.org/10.1016/j.softx.2022.101266">SoftwareX 21, 101266 (2023)</a>,
+and the papers on the methods you use, listed in <a class="reference internal" href="src/history_comparison.html"><span class="std std-doc">history and comparison</span></a>.</p>
+</section>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
@@ -344,11 +415,11 @@ For detailed usage of the libraries and their API, please refer to the documenta
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="src/notation.html"
+       href="src/history_comparison.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Notation and conventions</p>
+        <p class="prev-next-title">IR, DLR and MiniPole: history and comparison</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -358,6 +429,23 @@ For detailed usage of the libraries and their API, please refer to the documenta
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-go">Where to go</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-libraries-at-a-glance">The libraries at a glance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing">Citing</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
