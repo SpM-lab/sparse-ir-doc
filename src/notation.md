@@ -1,7 +1,7 @@
 # Notation and conventions
 
 This page fixes the notation used by this document, the
-[tutorials](https://spm-lab.github.io/sparse-ir-tutorial-v2) and the
+[tutorials](https://spm-lab.github.io/sparse-ir-tutorial/) and the
 documentation of the three libraries. There are three libraries:
 - the Rust crate and its C API ([sparse-ir-rs](https://github.com/SpM-lab/sparse-ir-rs));
 - the Python library ([sparse-ir](https://github.com/SpM-lab/sparse-ir));
