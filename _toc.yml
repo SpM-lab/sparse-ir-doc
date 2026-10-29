@@ -1,16 +1,17 @@
 format: jb-book
 root: index
 parts:
-- caption: Conventions
+- caption: Start here
   chapters:
+  - file: src/history_comparison
   - file: src/notation
+  - file: src/libraries
 - caption: Basic theory
   chapters:
   - file: src/greens_function
   - file: src/IR_py
   - file: src/sparse_sampling_py
   - file: src/DLR
-  - file: src/history_comparison
 - caption: Notes
   chapters:
   - file: src/matsubarasum
