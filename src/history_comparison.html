@@ -298,6 +298,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-discrete-lehmann-representation">2021/22: the discrete Lehmann representation</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-pole-representation">2023–2025: minimal pole representation</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beyond-one-particle-functions">Beyond one-particle functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantics-tensor-trains">2023: quantics tensor trains</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-size-grows-as-log-lambda">Why the size grows as <span class="math notranslate nohighlight">\(\log\Lambda\)</span></a></li>
@@ -413,8 +414,15 @@ The library <code class="docutils literal notranslate"><span class="pre">libdlr<
 <li><p><strong>Bethe–Salpeter equation in the IR</strong> <span id="id17">[<a class="reference internal" href="additional_material.html#id59" title="Markus Wallerberger, Hiroshi Shinaoka, and Anna Kauch. Solving the Bethe-Salpeter equation with exponential convergence. Phys. Rev. Research, 3:033168, 2021. doi:10.1103/PhysRevResearch.3.033168.">Wallerberger <em>et al.</em>, 2021</a>]</span>, with exponential convergence in the basis size.</p></li>
 <li><p><strong>Relation to partial spectral functions</strong> <span id="id18">[<a class="reference internal" href="additional_material.html#id60" title="Selina Dirnböck, Seung-Sup B. Lee, Fabian B. Kugler, Sebastian Huber, Jan von Delft, Karsten Held, and Markus Wallerberger. Overcomplete intermediate representation of two-particle Green's functions and its relation to partial spectral functions. Phys. Rev. Research, 6:043228, 2024. doi:10.1103/PhysRevResearch.6.043228.">Dirnböck <em>et al.</em>, 2024</a>]</span>.</p></li>
 <li><p><strong>DLR for three-point functions</strong> <span id="id19">[<a class="reference internal" href="additional_material.html#id61" title="Dominik Kiese, Hugo U. R. Strand, Kun Chen, Nils Wentzell, Olivier Parcollet, and Jason Kaye. Discrete Lehmann representation of three-point functions. Phys. Rev. B, 111:035135, 2025. doi:10.1103/PhysRevB.111.035135.">Kiese <em>et al.</em>, 2025</a>]</span>: products of simple poles on universal nodes.</p></li>
-<li><p>A related approach that does not factorize a kernel: quantics tensor trains compress correlation functions through their multiscale structure <span id="id20">[<a class="reference internal" href="additional_material.html#id62" title="Hiroshi Shinaoka, Markus Wallerberger, Yuta Murakami, Kosuke Nogaki, Rihito Sakurai, Philipp Werner, and Anna Kauch. Multiscale space-time ansatz for correlation functions of quantum systems based on quantics tensor trains. Phys. Rev. X, 13:021015, 2023. doi:10.1103/PhysRevX.13.021015.">Shinaoka <em>et al.</em>, 2023</a>]</span>.</p></li>
 </ul>
+</section>
+<section id="quantics-tensor-trains">
+<h3>2023: quantics tensor trains<a class="headerlink" href="#quantics-tensor-trains" title="Link to this heading">#</a></h3>
+<p><span id="id20">Shinaoka <em>et al.</em> [<a class="reference internal" href="additional_material.html#id62" title="Hiroshi Shinaoka, Markus Wallerberger, Yuta Murakami, Kosuke Nogaki, Rihito Sakurai, Philipp Werner, and Anna Kauch. Multiscale space-time ansatz for correlation functions of quantum systems based on quantics tensor trains. Phys. Rev. X, 13:021015, 2023. doi:10.1103/PhysRevX.13.021015.">2023</a>]</span> proposed a multiscale space-time ansatz based on quantics tensor trains (QTT).
+A time, frequency or momentum variable is written in binary digits, each digit corresponding to one length scale, and the resulting tensor is decomposed into a tensor train, which assumes a separation of length scales.
+The ansatz does not rely on the analytic-continuation kernel, so it applies to more general space-time dependence, such as momentum, real-time (nonequilibrium) and two-particle functions.
+It also contains the sum-of-exponentials form used by the DLR: a single exponential <span class="math notranslate nohighlight">\(e^{-\tau\omega}\)</span> factorizes over the binary digits of <span class="math notranslate nohighlight">\(\tau\)</span> and is a tensor train of bond dimension 1, so a sum of <span class="math notranslate nohighlight">\(N_\mathrm{P}\)</span> exponentials has bond dimension at most <span class="math notranslate nohighlight">\(N_\mathrm{P}\)</span>.
+For one-particle functions in imaginary time QTT is less compact than the IR and DLR, but it generalizes naturally to higher dimensions.</p>
 </section>
 </section>
 <section id="why-the-size-grows-as-log-lambda">
@@ -655,6 +663,7 @@ We are not aware of a systematic head-to-head comparison.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-discrete-lehmann-representation">2021/22: the discrete Lehmann representation</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-pole-representation">2023–2025: minimal pole representation</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beyond-one-particle-functions">Beyond one-particle functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantics-tensor-trains">2023: quantics tensor trains</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-size-grows-as-log-lambda">Why the size grows as <span class="math notranslate nohighlight">\(\log\Lambda\)</span></a></li>
